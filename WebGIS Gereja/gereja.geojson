@@ -1,0 +1,437 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 1,
+        "ID": 119,
+        "NAMA_MADA": "DKI JAKARTA DAN SEKITARNYA",
+        "MAWIL": "1",
+        "K_MADA": 7,
+        "NO": 1,
+        "KODE": "7.1",
+        "NAMA_JEMAA": "GGP METANOIA",
+        "NAMA_GEMBA": "Pdt. Mesakh Alexsandry",
+        "NO_HP_WA_G": "0813 1601 0980",
+        "ALAMAT_GER": "JL. KEBON KOSONG 2 NO.26 Kemayoran-Jakarta Pusat",
+        "Y": -6.166887071,
+        "X": 106.8485306,
+        "Jam_Operas": " ",
+        "Status": " "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.84581120322527,
+          -6.154040103468514
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 2,
+        "ID": 120,
+        "NAMA_MADA": "DKI JAKARTA DAN SEKITARNYA",
+        "MAWIL": "1",
+        "K_MADA": 7,
+        "NO": 2,
+        "KODE": "7.2",
+        "NAMA_JEMAA": "GGP MESIAS",
+        "NAMA_GEMBA": "Pdt.Dr.Edmon Pakasi, M.Th",
+        "NO_HP_WA_G": "81284418277",
+        "ALAMAT_GER": "Jl.Kramat Pulo No.22 B Jakarta Pusat",
+        "Y": -6.180983926,
+        "X": 106.8446906,
+        "Jam_Operas": " ",
+        "Status": " "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.84469060019109,
+          -6.180983926267118
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 3,
+        "ID": 121,
+        "NAMA_MADA": "DKI JAKARTA DAN SEKITARNYA",
+        "MAWIL": "1",
+        "K_MADA": 7,
+        "NO": 3,
+        "KODE": "7.3",
+        "NAMA_JEMAA": "GGP PASAR BARU",
+        "NAMA_GEMBA": "Pdm.Ribkah Sri Sugiyantari",
+        "NO_HP_WA_G": "0821 1094 9166",
+        "ALAMAT_GER": "Jl. Kelinci III/11 Pasar Baru-Jakarta Pusat",
+        "Y": -6.163014231,
+        "X": 106.8362996,
+        "Jam_Operas": " ",
+        "Status": " "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.83629959994664,
+          -6.163014230722126
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 4,
+        "ID": 122,
+        "NAMA_MADA": "DKI JAKARTA DAN SEKITARNYA",
+        "MAWIL": "1",
+        "K_MADA": 7,
+        "NO": 4,
+        "KODE": "7.4",
+        "NAMA_JEMAA": "GGP KANAAN",
+        "NAMA_GEMBA": "Pdt. Daniel Sukendra",
+        "NO_HP_WA_G": "0812 8224 834",
+        "ALAMAT_GER": "Jl.Kelinci Raya No.66 Jakarta Pusat",
+        "Y": -6.161912458,
+        "X": 106.8369155,
+        "Jam_Operas": "Kamis 18:00–21:00; Sabtu 16:00–07:00; Minggu 09:00–12:00",
+        "Status": " "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.83691549975055,
+          -6.161912457793619
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 5,
+        "ID": 123,
+        "NAMA_MADA": "DKI JAKARTA DAN SEKITARNYA",
+        "MAWIL": "1",
+        "K_MADA": 7,
+        "NO": 5,
+        "KODE": "7.5",
+        "NAMA_JEMAA": "GGP ECCLESIA CHRISTI",
+        "NAMA_GEMBA": "Pdt. Timothy Sumolang",
+        "NO_HP_WA_G": "0812 1285 5911",
+        "ALAMAT_GER": "Jl.Kramat Soka No.4 Jakarta Pusat",
+        "Y": -6.179985886,
+        "X": 106.8437886,
+        "Jam_Operas": "Senin 18:00–19:00; Selasa 12:00–14:00; Jumat 08:00–09:00 & 19:00–20:00; Sabtu 09:00–11:00 & 15:00–20:00; Minggu 07:00–12:00 & 17:00–20:00",
+        "Status": " "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.843788599964,
+          -6.179985885640065
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 7,
+        "ID": 125,
+        "NAMA_MADA": "DKI JAKARTA DAN SEKITARNYA",
+        "MAWIL": "2",
+        "K_MADA": 7,
+        "NO": 7,
+        "KODE": "7.7",
+        "NAMA_JEMAA": "GGP HALELUYA TANJUNG PRIOK",
+        "NAMA_GEMBA": "Pdt. Dr. Natanael Sunarno, M.Pd.K",
+        "NO_HP_WA_G": "0813 1958 1614",
+        "ALAMAT_GER": "Jl. Kebon Bawang IV NO.34 Tanjung Priok-Jakarta Utara",
+        "Y": -6.113381286,
+        "X": 106.8882347,
+        "Jam_Operas": " ",
+        "Status": " "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.88823469987159,
+          -6.113381286417166
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 8,
+        "ID": 126,
+        "NAMA_MADA": "DKI JAKARTA DAN SEKITARNYA",
+        "MAWIL": "2",
+        "K_MADA": 7,
+        "NO": 8,
+        "KODE": "7.8",
+        "NAMA_JEMAA": "GGP SILOAM",
+        "NAMA_GEMBA": "Pdt.Herry Kaowuan",
+        "NO_HP_WA_G": "0878 88037124",
+        "ALAMAT_GER": "Jl.Gading Sengon No.40A, Kelapa Gading-Jakarta Utara",
+        "Y": -6.14250565,
+        "X": 106.9014955,
+        "Jam_Operas": " ",
+        "Status": " "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.90149550021721,
+          -6.142505650115595
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 9,
+        "ID": 127,
+        "NAMA_MADA": "DKI JAKARTA DAN SEKITARNYA",
+        "MAWIL": "2",
+        "K_MADA": 7,
+        "NO": 9,
+        "KODE": "7.9",
+        "NAMA_JEMAA": "GGP EKKLESIA 5",
+        "NAMA_GEMBA": "Pdm.Ang Djie Nio",
+        "NO_HP_WA_G": "0812 9255 5705",
+        "ALAMAT_GER": "Jl.Kapuk Kamal Raya No.46 Kapuk-Cengkareng-Jakarta Barat",
+        "Y": -6.135376845,
+        "X": 106.7507789,
+        "Jam_Operas": " ",
+        "Status": " "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.74520068381567,
+          -6.130581450892119
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 12,
+        "ID": 130,
+        "NAMA_MADA": "DKI JAKARTA DAN SEKITARNYA",
+        "MAWIL": "2",
+        "K_MADA": 7,
+        "NO": 12,
+        "KODE": "7.12",
+        "NAMA_JEMAA": "GGP FILADELFIA",
+        "NAMA_GEMBA": "Pdt.John Pinaria, M.Th",
+        "NO_HP_WA_G": "81384801621",
+        "ALAMAT_GER": "Jl. Bougenville Raya No.21-23 Blk A, RT.007/RW.005, Jatibening, Kec. Pd. Gede, Kota Bekasi, Jawa Barat 17412",
+        "Y": -6.250292373254455,
+        "X": 106.95101552233915,
+        "Jam_Operas": "Buka mulai 07.30",
+        "Status": " "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.95101552233915,
+          -6.250292373254455
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 13,
+        "ID": 131,
+        "NAMA_MADA": "DKI JAKARTA DAN SEKITARNYA",
+        "MAWIL": "3",
+        "K_MADA": 7,
+        "NO": 13,
+        "KODE": "7.13",
+        "NAMA_JEMAA": "GGP EKKLESIA CENGKARENG",
+        "NAMA_GEMBA": "Pdt. Aston Yusak Karauwan",
+        "NO_HP_WA_G": "0859 54858629",
+        "ALAMAT_GER": "Blok Melati No.9-10 Rusun Cengkareng",
+        "Y": -6.133907366,
+        "X": 106.7403344,
+        "Jam_Operas": " ",
+        "Status": " "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.74033440041234,
+          -6.133907366032076
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 14,
+        "ID": 132,
+        "NAMA_MADA": "DKI JAKARTA DAN SEKITARNYA",
+        "MAWIL": "3",
+        "K_MADA": 7,
+        "NO": 14,
+        "KODE": "7.14",
+        "NAMA_JEMAA": "GGP SION KAPUK",
+        "NAMA_GEMBA": "Pdt.Hari Slamet Purnama, S.Th",
+        "NO_HP_WA_G": "0858 1164 6088",
+        "ALAMAT_GER": "Jl.Kapuk Kamal Raya No.46 Kapuk-Cengkareng-Jakarta Barat",
+        "Y": -6.130653653,
+        "X": 106.7451451,
+        "Jam_Operas": " ",
+        "Status": " "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.7451450997666,
+          -6.130653653043623
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 16,
+        "ID": 134,
+        "NAMA_MADA": "DKI JAKARTA DAN SEKITARNYA",
+        "MAWIL": "3",
+        "K_MADA": 7,
+        "NO": 16,
+        "KODE": "7.16",
+        "NAMA_JEMAA": "GGP EKKLESIA 7",
+        "NAMA_GEMBA": "Pdt. Sabariyanto,S.Th",
+        "NO_HP_WA_G": "85775577116",
+        "ALAMAT_GER": "HOTEL Agusta No.1-2 Jl.Ring Road Cengkareng Timur",
+        "Y": -6.145198284,
+        "X": 106.729339,
+        "Jam_Operas": " ",
+        "Status": " "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.72933900039459,
+          -6.145198284173432
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 19,
+        "ID": 137,
+        "NAMA_MADA": "DKI JAKARTA DAN SEKITARNYA",
+        "MAWIL": "4",
+        "K_MADA": 7,
+        "NO": 19,
+        "KODE": "7.19",
+        "NAMA_JEMAA": "GGP GUNUNG HERMON",
+        "NAMA_GEMBA": "Pdt.Ir. Karnadi Margaka, M.Th",
+        "NO_HP_WA_G": "8119226587",
+        "ALAMAT_GER": "Jl.Biru Laut I No.3 Cawang Kavling-Jakarta Timur",
+        "Y": -6.241517,
+        "X": 106.8759592,
+        "Jam_Operas": " ",
+        "Status": " "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.87595920035687,
+          -6.24151700000948
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 20,
+        "ID": 138,
+        "NAMA_MADA": "DKI JAKARTA DAN SEKITARNYA",
+        "MAWIL": "4",
+        "K_MADA": 7,
+        "NO": 20,
+        "KODE": "7.20",
+        "NAMA_JEMAA": "GGP MESIAS CIBINONG",
+        "NAMA_GEMBA": "Pdt.Olga Vineke Tiwow",
+        "NO_HP_WA_G": "0812 87358639",
+        "ALAMAT_GER": "Jl.Raya Cikaret Ruko LMC NO.95 Cikaret-Cibinong",
+        "Y": -6.4762456,
+        "X": 106.8450142,
+        "Jam_Operas": " ",
+        "Status": " "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.84501419964568,
+          -6.4762456001543
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 21,
+        "ID": 139,
+        "NAMA_MADA": "DKI JAKARTA DAN SEKITARNYA",
+        "MAWIL": "4",
+        "K_MADA": 7,
+        "NO": 21,
+        "KODE": "7.21",
+        "NAMA_JEMAA": "GGP HALAS",
+        "NAMA_GEMBA": "Pdt.Adhi Gunanto,S.Th",
+        "NO_HP_WA_G": "81219737277",
+        "ALAMAT_GER": "Jl.Beo 2 No.72 Cakung-Pulo Gebang-Jakarta Timur",
+        "Y": -6.180295119,
+        "X": 106.9469368,
+        "Jam_Operas": " ",
+        "Status": " "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.94693679979355,
+          -6.180295119324228
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "OBJECTID": 22,
+        "ID": 140,
+        "NAMA_MADA": "DKI JAKARTA DAN SEKITARNYA",
+        "MAWIL": "4",
+        "K_MADA": 7,
+        "NO": 22,
+        "KODE": "7.22",
+        "NAMA_JEMAA": "GGP BAIT EL DEPOK",
+        "NAMA_GEMBA": "Pdt. Yvonne Makaminan,S.Th",
+        "NO_HP_WA_G": "8179884418",
+        "ALAMAT_GER": "Jl.Puring No10A Depok",
+        "Y": -6.396801701,
+        "X": 106.8262639,
+        "Jam_Operas": "Rabu 19:00–20:00; Jumat 10:00–12:00; Minggu 07:00–19:00",
+        "Status": " "
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.82626389975923,
+          -6.396801701137576
+        ]
+      }
+    }
+  ]
+}

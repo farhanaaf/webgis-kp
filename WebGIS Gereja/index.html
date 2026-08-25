@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webgis Gereja Gerakan Pentakosta</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        crossorigin=""/>
+  <style>
+    :root{
+      --navy:#071b43;
+      --navy2:#122c58;
+      --pink:#f51b78;
+      --pink2:#ff3d91;
+      --soft:#fff0f7;
+      --text:#10264d;
+      --muted:#647594;
+      --white:#fff;
+      --line:#eadfeb;
+      --shadow:0 12px 30px rgba(7,27,67,.16);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--text)}
+    body{overflow:hidden;background:#eef2f8}
+    #map{position:absolute;inset:0;z-index:1}
+
+    /* HEADER */
+    .header{
+      position:absolute;left:0;right:0;top:0;height:112px;z-index:1000;
+      display:flex;align-items:center;gap:18px;padding:18px 28px;
+      color:#fff;background:linear-gradient(110deg,#071a41 0%,#0d2450 62%,#8d0d55 100%);
+      box-shadow:0 4px 18px rgba(0,0,0,.18)
+    }
+    .menu-btn{
+      width:58px;height:58px;border:1px solid rgba(255,30,126,.9);
+      border-radius:13px;background:rgba(255,255,255,.08);color:#fff;
+      display:grid;place-items:center;cursor:pointer;flex:none
+    }
+    .hamb{width:27px}
+    .hamb span{display:block;height:3px;margin:5px 0;border-radius:4px;background:#fff}
+    .brand{display:flex;align-items:center;gap:16px;min-width:0}
+    .brand-pin{
+      width:62px;height:74px;flex:none;display:grid;place-items:center;
+      filter:drop-shadow(0 5px 8px rgba(0,0,0,.2))
+    }
+    .brand-pin svg{width:62px;height:74px}
+    .brand-text h1{margin:0;font-size:34px;line-height:1.05;letter-spacing:-.7px}
+    .brand-text p{margin:7px 0 0;font-size:21px;color:#fff}
+    .credit{margin-left:auto;display:flex;align-items:center;gap:12px;text-align:left;line-height:1.35}
+    .credit-icon{
+      width:60px;height:60px;border:2px solid var(--pink);border-radius:50%;
+      display:grid;place-items:center;font-size:29px;background:rgba(255,255,255,.04)
+    }
+    .credit b{font-size:16px}.credit div{font-size:16px}
+    .credit .name{color:#ff7ab5;font-weight:700}
+
+    /* LEFT CONTROLS */
+    .map-tools{
+      position:absolute;left:34px;top:142px;z-index:900;display:flex;flex-direction:column;gap:18px
+    }
+    .zoom-box{
+      width:74px;border-radius:18px;overflow:hidden;background:#fff;
+      box-shadow:var(--shadow)
+    }
+    .zoom-box button{
+      width:100%;height:70px;border:0;background:#fff;color:var(--navy);
+      font-size:34px;line-height:1;cursor:pointer
+    }
+    .zoom-box button:first-child{background:linear-gradient(135deg,var(--pink),#d81669);color:#fff}
+    .zoom-box button+button{border-top:1px solid #eee}
+    .layer-btn{
+      width:74px;height:78px;border:0;border-radius:18px;background:linear-gradient(135deg,#38145b,#c91870);
+      color:#fff;box-shadow:var(--shadow);cursor:pointer;display:grid;place-items:center
+    }
+    .layer-btn svg{width:38px;height:38px}
+    .basemap-panel{
+      width:205px;padding:14px 12px;background:#fff;border-radius:16px;box-shadow:var(--shadow);
+      display:none
+    }
+    .basemap-panel.open{display:block}
+    .base-item{display:flex;align-items:center;gap:10px;padding:7px 3px;cursor:pointer}
+    .base-thumb{width:100px;height:58px;border-radius:10px;object-fit:cover;border:1px solid #ddd}
+    .base-radio{width:22px;height:22px;border:2px solid #cfd3df;border-radius:50%;margin-left:auto;position:relative}
+    .base-item.active .base-radio{border-color:var(--pink)}
+    .base-item.active .base-radio:after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--pink)}
+    .base-name{font-size:14px;flex:1}
+
+    /* RIGHT PANEL */
+    .right-toggle{
+      position:absolute;right:calc(100% - 1128px);top:142px;z-index:1001;width:44px;height:54px;
+      border:0;border-radius:16px 0 0 16px;background:var(--pink);color:#fff;font-size:28px;cursor:pointer
+    }
+    .side{
+      position:absolute;right:0;top:112px;bottom:0;width:390px;z-index:800;
+      padding:18px 18px 24px;background:rgba(249,251,255,.96);overflow-y:auto;
+      box-shadow:-10px 0 28px rgba(7,27,67,.10);transition:transform .25s ease
+    }
+    .side.collapsed{transform:translateX(100%)}
+    .card{
+      background:#fff;border:1px solid #eadff0;border-radius:18px;padding:22px 24px;
+      margin-bottom:14px;box-shadow:0 8px 20px rgba(7,27,67,.06)
+    }
+    .card-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px}
+    .card-icon{
+      width:58px;height:58px;border-radius:14px;background:var(--soft);color:var(--pink);
+      display:grid;place-items:center;flex:none
+    }
+    .card h2{font-size:24px;margin:2px 0 4px}
+    .card .sub{font-size:15px;color:var(--muted)}
+    .legend-row{display:flex;align-items:center;gap:16px;margin:18px 0;font-size:17px}
+    .legend-dot{width:25px;height:25px;border-radius:50%;background:var(--pink);border:3px solid #fff;box-shadow:0 0 0 2px var(--pink);flex:none}
+    .tip{font-size:17px;line-height:1.8;color:#17315c}
+    .tip strong{color:var(--pink)}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);padding:8px 0}
+    .stat{text-align:center;padding:4px 9px;border-right:1px solid #ddd}
+    .stat:last-child{border-right:0}
+    .stat-icon{height:50px;display:grid;place-items:center;color:var(--pink)}
+    .stat-num{font-size:34px;font-weight:800;margin:4px 0}
+    .stat-label{font-size:15px;color:#34496e}
+
+    /* SEARCH / FILTER */
+    .search-panel{
+      position:absolute;right:410px;top:132px;width:330px;z-index:850;
+      background:#fff;border-radius:18px;box-shadow:var(--shadow);padding:16px;display:none
+    }
+    .search-panel.open{display:block}
+    .search-title{font-size:20px;font-weight:800;margin-bottom:12px}
+    .search-input,.filter-select{
+      width:100%;height:44px;border:1px solid #d9dce5;border-radius:10px;padding:0 12px;
+      font-size:14px;outline:none;margin-bottom:10px
+    }
+    .search-input:focus,.filter-select:focus{border-color:var(--pink)}
+    .small-actions{display:flex;gap:8px}
+    .small-actions button{
+      flex:1;border:0;border-radius:10px;padding:10px;background:var(--pink);color:#fff;font-weight:700;cursor:pointer
+    }
+    .small-actions button.secondary{background:#f3f5fa;color:var(--navy)}
+    .tool-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+    .tool-close{
+      width:34px;height:34px;border:0;border-radius:10px;background:#f8edf4;
+      color:var(--navy);font-size:25px;line-height:1;cursor:pointer;flex:none
+    }
+    .tool-close:hover{background:#ffe2ef;color:var(--pink)}
+    .search-panel .search-title{margin:0}
+    .search-panel .search-input,.search-panel .filter-select{margin-bottom:0}
+    .search-panel .filter-select{display:none}
+    .search-panel.mode-filter .search-input{display:none}
+    .search-panel.mode-filter .filter-select{display:block}
+    .about-content{color:#24395e;line-height:1.7}
+    .about-lead{
+      margin:0 0 18px;padding:16px 18px;border-radius:14px;
+      background:linear-gradient(135deg,#fff0f7,#f4f6ff);
+      border:1px solid #f3d8e8;color:#17315c
+    }
+    .about-section{padding:14px 0;border-bottom:1px solid #ececf2}
+    .about-section:last-child{border-bottom:0}
+    .about-section h3{margin:0 0 7px;color:var(--navy);font-size:17px}
+    .about-section p{margin:0;font-size:14px}
+    .about-maker{
+      margin-top:16px;padding:14px 16px;border-radius:13px;background:#fff7fb;
+      border:1px solid #f4d7e7
+    }
+    .about-maker b{color:var(--pink)}
+    .base-close{
+      display:none;position:absolute;right:8px;top:8px;width:30px;height:30px;
+      border:0;border-radius:9px;background:#fff;color:var(--navy);font-size:22px;
+      cursor:pointer;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,.12)
+    }
+    .basemap-panel.open .base-close{display:block}
+
+    /* MENU DRAWER */
+    .drawer{
+      position:absolute;left:0;top:112px;bottom:0;width:320px;z-index:1100;
+      background:rgba(255,255,255,.98);box-shadow:10px 0 28px rgba(7,27,67,.16);
+      transform:translateX(-105%);transition:.25s ease;padding:26px 22px;overflow:auto
+    }
+    .drawer.open{transform:translateX(0)}
+    .drawer:before{
+      content:"";position:absolute;top:-12px;left:39px;border-left:12px solid transparent;
+      border-right:12px solid transparent;border-bottom:12px solid #fff
+    }
+    .drawer-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+    .drawer h2{margin:0;font-size:24px}
+    .close-btn{border:0;background:transparent;font-size:30px;cursor:pointer;color:var(--navy)}
+    .menu-item{padding:18px 4px;border-bottom:1px solid #edf0f5;display:flex;gap:14px;cursor:pointer}
+    .menu-item:last-child{border-bottom:0}
+    .menu-ico{width:48px;height:48px;border-radius:13px;background:var(--soft);color:var(--pink);display:grid;place-items:center;font-size:23px;flex:none}
+    .menu-item b{display:block;font-size:17px;margin:2px 0 5px}.menu-item span{font-size:14px;color:#647594;line-height:1.55}
+
+    /* POPUP */
+    .leaflet-popup-content-wrapper{border-radius:15px;box-shadow:var(--shadow)}
+    .popup{min-width:245px}.popup h3{margin:0 0 8px;color:var(--navy);font-size:18px}
+    .popup p{margin:5px 0;font-size:13px;line-height:1.45}.popup b{color:#17315c}
+    .detail-btn{
+      width:100%;border:0;border-radius:9px;padding:10px;margin-top:10px;
+      background:var(--pink);color:#fff;font-weight:800;cursor:pointer
+    }
+
+    /* MODAL */
+    .modal-backdrop{
+      position:fixed;inset:0;z-index:2000;background:rgba(3,14,36,.62);
+      display:none;align-items:center;justify-content:center;padding:20px
+    }
+    .modal-backdrop.show{display:flex}
+    .modal{
+      width:min(650px,96vw);max-height:90vh;overflow:auto;background:#fff;border-radius:18px;
+      box-shadow:0 25px 70px rgba(0,0,0,.3);position:relative
+    }
+    .modal-head{padding:22px 24px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;gap:20px}
+    .modal-head h2{margin:0;font-size:25px}.modal-close{border:0;background:transparent;font-size:28px;cursor:pointer}
+    .modal-body{padding:22px 24px}
+    .photo-box{height:190px;border-radius:13px;background:#f1f2f5;display:grid;place-items:center;color:#777;margin-bottom:18px;overflow:hidden}
+    .photo-box img{width:100%;height:100%;object-fit:cover}
+    .detail-row{padding:12px 0;border-bottom:1px solid #e8e8ee}
+    .detail-row:last-child{border-bottom:0}.detail-row b{display:block;margin-bottom:4px}
+    .maps-btn{
+      display:block;text-align:center;text-decoration:none;background:var(--pink);color:#fff;
+      border-radius:10px;padding:12px;margin-top:16px;font-weight:800
+    }
+
+    .mawil-info{
+      margin-top:10px;padding:12px 13px;border:1px solid #f5b5d4;
+      border-radius:12px;background:linear-gradient(135deg,#fff7fb,#fff);
+      color:#17315c
+    }
+    .mawil-info[hidden]{display:none}
+    .mawil-info-title{font-weight:800;color:var(--pink);font-size:15px;margin-bottom:4px}
+    .mawil-info-scope{font-size:13px;line-height:1.5;font-weight:700}
+    .mawil-info-note{font-size:11px;line-height:1.45;color:#75839b;margin-top:6px}
+    .leaflet-control-attribution{font-size:12px}
+    .leaflet-control-scale{margin-bottom:10px!important;margin-left:12px!important}
+    /* FINAL UI OPTIMIZATION */
+    .header{height:104px;padding:15px 24px;gap:14px}
+    .brand-text h1{font-size:30px}
+    .brand-text p{font-size:18px}
+    .credit{font-size:14px}
+     .credit-photo {
+        width: 54px !important;
+        height: 54px !important;
+        min-width: 54px;
+        min-height: 54px;
+        max-width: 54px;
+        max-height: 54px;
+        display: block;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center top;
+        flex: 0 0 54px;
+        border: 2px solid #ff2b8a;
+        box-shadow: 0 0 0 3px rgba(255, 43, 138, 0.15);
+    }
+    .map-tools{left:30px;top:132px;gap:14px}
+    .zoom-box{width:70px}
+    .zoom-box button{height:66px}
+    .layer-btn{width:70px;height:70px}
+    .basemap-panel{
+      width:190px;padding:8px;max-height:310px;overflow-y:auto;
+      border:1px solid #eee;position:absolute;left:0;top:84px
+    }
+    .base-item{
+      width:100%;min-height:48px;border:0;background:#fff;border-radius:10px;
+      display:flex;align-items:center;gap:10px;padding:8px 9px;text-align:left;
+      color:var(--text);cursor:pointer
+    }
+    .base-item:hover{background:#fff0f7}
+    .base-item.active{background:#fff0f7}
+    .base-symbol{
+      width:28px;height:28px;border-radius:8px;background:#f7eaf2;
+      display:grid;place-items:center;flex:none;font-size:15px
+    }
+    .base-name{font-size:13px;line-height:1.2;white-space:nowrap}
+    .base-radio{
+      width:18px;height:18px;margin-left:auto;flex:none;border:2px solid #cfd3df
+    }
+    .base-item.active .base-radio{border-color:var(--pink)}
+    .base-item.active .base-radio:after{inset:3px}
+
+    .side{
+      top:104px;width:350px;padding:14px 14px 20px;
+      overflow-x:hidden;overflow-y:auto
+    }
+    .right-toggle{
+      position:absolute;left:-42px;top:24px;width:42px;height:54px;
+      border:0;border-radius:14px 0 0 14px;background:var(--pink);
+      color:#fff;font-size:26px;line-height:1;cursor:pointer;
+      box-shadow:-4px 4px 12px rgba(7,27,67,.12);z-index:2
+    }
+    .card{
+      width:100%;margin:0 0 12px;padding:17px 18px;border-radius:16px;
+      overflow:hidden
+    }
+    .card-head{gap:11px;margin-bottom:13px}
+    .card-icon{width:48px;height:48px;border-radius:12px}
+    .card h2{font-size:20px;line-height:1.2}
+    .card .sub{font-size:13px}
+    .legend-row{gap:13px;margin:13px 0;font-size:15px}
+    .legend-dot{width:22px;height:22px}
+    .tip{font-size:15px;line-height:1.65;overflow-wrap:anywhere}
+    .stats{padding:3px 0}
+    .stat{padding:2px 6px}
+    .stat-icon{height:38px}
+    .stat-num{font-size:28px}
+    .stat-label{font-size:12px;line-height:1.3;overflow-wrap:anywhere}
+
+    .search-panel{
+      right:365px;top:120px;width:300px;padding:14px;border-radius:15px
+    }
+    .search-title{font-size:18px}
+    .search-input,.filter-select{height:40px;font-size:13px}
+
+    .drawer{top:104px;width:310px;padding:22px 18px}
+    .menu-item{padding:15px 2px}
+    .menu-item span{overflow-wrap:anywhere}
+
+    .popup{min-width:220px}
+    .popup p{overflow-wrap:anywhere}
+    .modal{width:min(600px,94vw)}
+    .modal-body{padding:18px 20px}
+
+    .search-panel{
+      width:300px;right:365px;padding:13px;border-radius:15px
+    }
+    .tool-head{margin-bottom:9px}
+    .search-title{font-size:17px}
+    .tool-close{width:30px;height:30px;font-size:22px}
+    .search-input,.filter-select{height:42px;font-size:13px;margin:0}
+    .search-panel.mode-filter .filter-select{display:block}
+    .about-content b{font-weight:800}
+    @media(max-width:1000px){
+
+      .credit{display:none}.brand-text h1{font-size:25px}.brand-text p{font-size:15px}
+      .brand-pin{width:50px;height:60px}.brand-pin svg{width:50px;height:60px}
+      .side{width:340px}.right-toggle{display:none}
+      .search-panel{right:20px}
+    }
+    @media(max-width:700px){
+      .header{height:92px;padding:12px 14px}
+      .menu-btn{width:46px;height:46px}
+      .brand-text h1{font-size:19px}
+      .brand-text p{font-size:12px}
+      .brand-pin{width:48px;height:58px}
+      .brand-pin svg{width:48px;height:58px}
+      .map-tools{left:14px;top:108px}
+      .zoom-box{width:58px}
+      .zoom-box button{height:55px}
+      .layer-btn{width:58px;height:60px}
+      .basemap-panel{top:72px;width:180px}
+      .side{top:92px;width:calc(100% - 12px);padding:10px 10px 18px}
+      .right-toggle{left:-38px;width:38px;height:50px;top:18px}
+      .search-panel{left:84px;right:14px;top:106px;width:auto}
+      .drawer{top:92px;width:300px}
+      .card{padding:15px}
+
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <button class="menu-btn" id="menuBtn" aria-label="Buka menu">
+      <span class="hamb"><span></span><span></span><span></span></span>
+    </button>
+
+    <div class="brand">
+      <div class="brand-pin" aria-hidden="true">
+        <svg viewBox="0 0 80 94" xmlns="http://www.w3.org/2000/svg">
+          <path d="M40 2C18.5 2 2 18.5 2 40c0 27 38 52 38 52s38-25 38-52C78 18.5 61.5 2 40 2z" fill="#f51b78" stroke="#fff" stroke-width="3"/>
+          <path d="M40 20v18M31 29h18" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+          <path d="M22 45l18-13 18 13v24H22z" fill="#fff"/>
+          <path d="M35 69V54h10v15M27 48v21M53 48v21" stroke="#f51b78" stroke-width="3"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>Webgis Gereja Gerakan Pentakosta</h1>
+        <p>Persebaran Gereja Pentakosta DKI Jakarta dan Sekitarnya</p>
+      </div>
+    </div>
+
+<div class="credit">
+  <img
+    class="credit-photo"
+    src="profil-farhana.jpeg"
+    alt="Foto profil Farhana Fuad"
+  >
+
+  <div class="credit-text">
+    <div>Dibuat oleh:</div>
+    <div class="name">Farhana Fuad | 21110123140147</div>
+    <div>Teknik Geodesi Universitas Diponegoro</div>
+  </div>
+</div>
+  </header>
+
+  <div id="map"></div>
+
+  <div class="map-tools">
+    <div class="zoom-box">
+      <button id="zoomIn" title="Zoom in">+</button>
+      <button id="zoomOut" title="Zoom out">−</button>
+    </div>
+    <button class="layer-btn" id="layerBtn" title="Pilih basemap">
+      <svg viewBox="0 0 50 50" fill="none">
+        <path d="M7 17 25 7l18 10-18 10L7 17Z" stroke="white" stroke-width="3"/>
+        <path d="m7 25 18 10 18-10M7 33l18 10 18-10" stroke="white" stroke-width="3"/>
+      </svg>
+    </button>
+    <div class="basemap-panel" id="basemapPanel"><button class="base-close" id="baseClose" aria-label="Tutup pilihan basemap">×</button></div>
+  </div>
+
+  <aside class="side" id="sidePanel">
+    <button class="right-toggle" id="rightToggle" title="Sembunyikan panel" aria-label="Sembunyikan panel">»</button>
+    <section class="card">
+      <div class="card-head">
+        <div class="card-icon">●</div>
+        <div><h2>Legenda</h2><div class="sub">Keterangan simbol</div></div>
+      </div>
+      <div class="legend-row"><span class="legend-dot"></span><span>Lokasi Gereja</span></div>
+      <div class="legend-row"><span class="legend-dot"></span><span>Gereja hasil filter</span></div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <div class="card-icon">ℹ</div>
+        <div><h2>Tips</h2><div class="sub">Interaksi peta</div></div>
+      </div>
+      <div class="tip">
+        Klik marker untuk membuka popup.<br>
+        Pilih <strong>Lihat Selengkapnya</strong> untuk detail dan akses Google Maps.
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-icon">📍</div>
+          <div class="stat-num" id="totalStat">0</div>
+          <div class="stat-label">Total Gereja</div>
+        </div>
+        <div class="stat">
+          <div class="stat-icon">⏷</div>
+          <div class="stat-num" id="filterStat">0</div>
+          <div class="stat-label">Hasil Filter</div>
+        </div>
+        <div class="stat">
+          <div class="stat-icon">▥</div>
+          <div class="stat-num" id="wilayahStat">0</div>
+          <div class="stat-label">Wilayah</div>
+        </div>
+      </div>
+    </section>
+  </aside>
+
+  <div class="search-panel" id="searchPanel" aria-live="polite">
+    <div class="tool-head">
+      <div class="search-title" id="toolTitle">Cari Gereja</div>
+      <button class="tool-close" id="toolClose" aria-label="Tutup fitur">×</button>
+    </div>
+    <input id="searchInput" class="search-input" placeholder="Cari nama atau alamat gereja..." autocomplete="off">
+    <select id="wilayahSelect" class="filter-select" aria-label="Pilih Mawil">
+      <option value="">Semua Mawil</option>
+    </select>
+    <div class="mawil-info" id="mawilInfo" hidden>
+      <div class="mawil-info-title" id="mawilInfoTitle">Mawil</div>
+      <div class="mawil-info-scope" id="mawilInfoScope"></div>
+      <div class="mawil-info-note">Cakupan berdasarkan alamat gereja yang terdapat pada data WebGIS.</div>
+    </div>
+  </div>
+
+  <nav class="drawer" id="drawer">
+    <div class="drawer-head">
+      <h2>MENU</h2>
+      <button class="close-btn" id="drawerClose">×</button>
+    </div>
+
+    <div class="menu-item" id="menuSearch">
+      <div class="menu-ico">⌕</div>
+      <div><b>Cari Gereja</b><span>Cari berdasarkan nama jemaat atau alamat gereja</span></div>
+    </div>
+
+    <div class="menu-item" id="menuFilter">
+      <div class="menu-ico">⌖</div>
+      <div><b>Filter Wilayah</b><span>Pilih berdasarkan Mawil (1, 2, 3, 4)</span></div>
+    </div>
+
+    <div class="menu-item" id="menuAll">
+      <div class="menu-ico">☷</div>
+      <div><b>Tampilkan Semua Gereja</b><span>Tampilkan kembali semua marker gereja</span></div>
+    </div>
+
+    <div class="menu-item" id="menuAbout">
+      <div class="menu-ico">i</div>
+      <div><b>Tentang WebGIS</b><span>Informasi tentang latar belakang, tujuan, dan pembuat WebGIS.</span></div>
+    </div>
+  </nav>
+
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <div class="modal-head">
+        <h2 id="modalTitle">Detail Gereja</h2>
+        <button class="modal-close" id="modalClose">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="photo-box" id="photoBox">Foto gereja belum tersedia</div>
+        <div id="modalDetails"></div>
+        <a id="mapsLink" class="maps-btn" target="_blank" rel="noopener">📍 Buka di Google Maps</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          crossorigin=""></script>
+
+  <script>
+    const map = L.map('map', {
+      zoomControl:false,
+      center:[-6.20,106.83],
+      zoom:10,
+      attributionControl:true
+    });
+
+    const baseMaps = {
+      "OpenStreetMap": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+        maxZoom:19, attribution:'© OpenStreetMap contributors'
+      }),
+      "Light": L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+        maxZoom:20, attribution:'© OpenStreetMap © CARTO'
+      }),
+      "Esri Street": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{
+        maxZoom:19, attribution:'Tiles © Esri'
+      }),
+      "Esri Satellite": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
+        maxZoom:19, attribution:'Tiles © Esri'
+      }),
+      "Dark": L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+        maxZoom:20, attribution:'© OpenStreetMap © CARTO'
+      })
+    };
+    baseMaps["OpenStreetMap"].addTo(map);
+
+    // Selector basemap dibuat tanpa thumbnail eksternal agar panel lebih ringan.
+    const baseIcons = {
+      "OpenStreetMap":"🗺️",
+      "Light":"◻",
+      "Esri Street":"▦",
+      "Esri Satellite":"🌍",
+      "Dark":"◼"
+    };
+
+    const basemapPanel = document.getElementById('basemapPanel');
+    Object.keys(baseMaps).forEach((name,i)=>{
+      const row=document.createElement('button');
+      row.type='button';
+      row.className='base-item'+(i===0?' active':'');
+      row.innerHTML=`
+        <span class="base-symbol">${baseIcons[name]}</span>
+        <span class="base-name">${name}</span>
+        <span class="base-radio" aria-hidden="true"></span>`;
+      row.onclick=()=>{
+        Object.values(baseMaps).forEach(layer=>map.removeLayer(layer));
+        baseMaps[name].addTo(map);
+        document.querySelectorAll('.base-item').forEach(x=>x.classList.remove('active'));
+        row.classList.add('active');
+        basemapPanel.classList.remove('open');
+      };
+      basemapPanel.appendChild(row);
+    });
+
+    const churchIcon = L.divIcon({
+      className:'church-marker',
+      html:'<div style="width:17px;height:17px;border-radius:50%;background:#f51b78;border:3px solid #fff;box-shadow:0 0 0 1.5px #f51b78,0 3px 7px rgba(0,0,0,.18)"></div>',
+      iconSize:[20,20],iconAnchor:[10,10],popupAnchor:[0,-10]
+    });
+
+    let geoData=null;
+    let allFeatures=[];
+    let visibleLayer=L.layerGroup().addTo(map);
+
+    const esc = value => String(value ?? '-')
+      .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
+      .replaceAll('"','&quot;').replaceAll("'","&#039;");
+
+    function prop(p,...keys){
+      for(const k of keys) if(p && p[k]!==undefined && p[k]!==null && String(p[k]).trim()!=='') return p[k];
+      return '';
+    }
+
+    function coordsOf(f){
+      const p=f.properties||{};
+      let lat=parseFloat(prop(p,'Y','LAT','Latitude','latitude'));
+      let lng=parseFloat(prop(p,'X','LON','LNG','Longitude','longitude'));
+      if(Number.isFinite(lat)&&Number.isFinite(lng)) return [lat,lng];
+      if(f.geometry && f.geometry.type==='Point' && Array.isArray(f.geometry.coordinates))
+        return [f.geometry.coordinates[1],f.geometry.coordinates[0]];
+      return null;
+    }
+
+    function churchName(p){ return prop(p,'NAMA_JEMAA','NAMA_JEMAAT','NAMA_JEMA','NAMA') || 'Gereja'; }
+    function address(p){ return prop(p,'ALAMAT_GER','ALAMAT_GEREJA','ALAMAT') || '-'; }
+    function pastor(p){ return prop(p,'NAMA_GEMBA','NAMA_GEMBALA','GEMBALA') || '-'; }
+    function phone(p){ return prop(p,'NO_HP_WA_G','NO_HP_WA','NO_HP','TELEPON') || '-'; }
+    function mawil(p){ return prop(p,'MAWIL','Mawil','MAWIL_') || '-'; }
+
+    function googleMapsUrl(lat,lng){
+      return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lat+','+lng)}`;
+    }
+
+    function openDetails(feature){
+      const p=feature.properties||{}, c=coordsOf(feature);
+      const lat=c ? c[0] : '', lng=c ? c[1] : '';
+      document.getElementById('modalTitle').textContent=churchName(p);
+
+      const photoName = prop(p,'FOTO','FOTO_GEREJA','foto');
+      const photoBox=document.getElementById('photoBox');
+      const mapsLink=document.getElementById('mapsLink');
+      photoBox.style.display='grid';
+      mapsLink.style.display='block';
+      if(photoName){
+        const src='FotoGereja/'+String(photoName).replace(/^.*[\\\\/]/,'');
+        photoBox.innerHTML=`<img src="${esc(src)}" alt="Foto ${esc(churchName(p))}" onerror="this.parentElement.textContent='Foto gereja belum tersedia'">`;
+      }else photoBox.textContent='Foto gereja belum tersedia';
+
+      const rows=[
+        ['📍 Alamat',address(p)],
+        ['👤 Gembala',pastor(p)],
+        ['☎ No. HP/WA',phone(p)],
+        ['🕘 Jam Operasional',prop(p,'Jam_Operas','JAM_OPERASIONAL') || '-'],
+        ['🧭 Mawil',mawil(p)],
+        ['📌 Koordinat',c ? `${lat}, ${lng}` : '-']
+      ];
+      document.getElementById('modalDetails').innerHTML=rows.map(r=>
+        `<div class="detail-row"><b>${r[0]}</b><span>${esc(r[1])}</span></div>`).join('');
+
+      const link=document.getElementById('mapsLink');
+      link.href=c?googleMapsUrl(lat,lng):'#';
+      link.style.pointerEvents=c?'auto':'none';
+      link.style.opacity=c?'1':'.5';
+      document.getElementById('modalBackdrop').classList.add('show');
+    }
+
+    function popupHTML(feature){
+      const p=feature.properties||{}, c=coordsOf(feature);
+      return `<div class="popup">
+        <h3>${esc(churchName(p))}</h3>
+        <p><b>Alamat:</b> ${esc(address(p))}</p>
+        <p><b>Gembala:</b> ${esc(pastor(p))}</p>
+        <p><b>Mawil:</b> ${esc(mawil(p))}</p>
+        <button class="detail-btn" onclick="openDetails(window.__churchFeatures[${allFeatures.indexOf(feature)}])">Lihat Selengkapnya</button>
+      </div>`;
+    }
+
+    window.__churchFeatures=[];
+
+    function render(features){
+      visibleLayer.clearLayers();
+      window.__churchFeatures=features;
+      const markers=[];
+      features.forEach(f=>{
+        const c=coordsOf(f); if(!c) return;
+        const m=L.marker(c,{icon:churchIcon});
+        m.bindPopup(popupHTML(f));
+        m.addTo(visibleLayer);
+        markers.push(m);
+      });
+      document.getElementById('filterStat').textContent=features.length;
+      if(features.length && !map._userMoved) map.fitBounds(L.featureGroup(markers).getBounds().pad(.12));
+    }
+
+    // Cakupan Mawil ditulis berdasarkan alamat gereja yang ada pada dataset,
+    // bukan sebagai batas administrasi resmi.
+    const mawilDescriptions = {
+      "1": "Jakarta Pusat — terutama kawasan Kemayoran, Kramat, Senen dan sekitarnya.",
+      "2": "Jakarta Utara, Jakarta Barat, dan Bekasi — antara lain Tanjung Priok, Kelapa Gading, Kapuk/Cengkareng, dan Bekasi.",
+      "3": "Jakarta Barat — terutama kawasan Cengkareng, Kapuk, dan sekitarnya.",
+      "4": "Jakarta Timur, Depok, dan sekitar Cibinong/Bogor — antara lain Cawang, Cakung/Pulo Gebang, Depok, dan Cibinong."
+    };
+
+    function updateMawilInfo(value){
+      const box=document.getElementById('mawilInfo');
+      const title=document.getElementById('mawilInfoTitle');
+      const scope=document.getElementById('mawilInfoScope');
+
+      if(!value){
+        box.hidden=true;
+        return;
+      }
+
+      title.textContent='Mawil '+value;
+      scope.textContent=mawilDescriptions[String(value)] || 'Cakupan wilayah mengikuti alamat gereja pada data.';
+      box.hidden=false;
+    }
+
+    function updateStats(){
+      document.getElementById('totalStat').textContent=allFeatures.length;
+      document.getElementById('filterStat').textContent=allFeatures.length;
+      const regions=new Set(allFeatures.map(f=>mawil(f.properties||{})).filter(x=>x&&x!=='-'));
+      document.getElementById('wilayahStat').textContent=regions.size;
+      const sel=document.getElementById('wilayahSelect');
+      [...regions].sort((a,b)=>String(a).localeCompare(String(b),undefined,{numeric:true}))
+        .forEach(x=>{
+          const o=document.createElement('option');
+          o.value=x;
+          o.textContent='Mawil '+x;
+          sel.appendChild(o);
+        });
+    }
+
+    function applyFilter(){
+      const q=document.getElementById('searchInput').value.trim().toLowerCase();
+      const w=document.getElementById('wilayahSelect').value;
+      updateMawilInfo(w);
+      const filtered=allFeatures.filter(f=>{
+        const p=f.properties||{};
+        const hay=[churchName(p),address(p),pastor(p),phone(p),mawil(p)].join(' ').toLowerCase();
+        return (!q || hay.includes(q)) && (!w || String(mawil(p))===w);
+      });
+      map._userMoved=false;
+      render(filtered);
+    }
+
+    fetch('gereja.geojson')
+      .then(r=>{if(!r.ok) throw new Error('File gereja.geojson tidak ditemukan'); return r.json()})
+      .then(data=>{
+        geoData=data;
+        allFeatures=Array.isArray(data.features)?data.features:[];
+        updateStats();
+        render(allFeatures);
+      })
+      .catch(err=>{
+        console.error(err);
+        alert('Gagal membaca gereja.geojson. Pastikan index.html dan gereja.geojson berada dalam folder yang sama dan WebGIS dibuka melalui Live Server.');
+      });
+
+    function openAbout(){
+      document.getElementById('modalTitle').textContent='Tentang WebGIS';
+      const photoBox=document.getElementById('photoBox');
+      const mapsLink=document.getElementById('mapsLink');
+      photoBox.style.display='none';
+      mapsLink.style.display='none';
+
+      document.getElementById('modalDetails').innerHTML=`
+        <div class="about-content">
+          <p class="about-lead">
+            WebGIS ini dirancang sebagai media visualisasi untuk menampilkan persebaran
+            Gereja Gerakan Pentakosta di DKI Jakarta dan sekitarnya secara interaktif.
+          </p>
+
+          <div class="about-section">
+            <h3>🎯 Latar Belakang</h3>
+            <p>
+              Data gereja yang tersimpan dalam basis data spasial disajikan dalam bentuk
+              peta digital agar lokasi dan informasi atribut setiap gereja dapat dilihat
+              dengan lebih mudah dan terstruktur.
+            </p>
+          </div>
+
+          <div class="about-section">
+            <h3>🗺️ Tujuan</h3>
+            <p>
+              WebGIS bertujuan membantu pengguna mengetahui persebaran gereja,
+              mencari gereja berdasarkan nama atau alamat, menyaring berdasarkan
+              wilayah/Mawil, serta melihat lokasi gereja langsung pada peta.
+            </p>
+          </div>
+
+          <div class="about-section">
+            <h3>📊 Data dan Fitur</h3>
+            <p>
+              Informasi utama bersumber dari <b>gereja.geojson</b>. Peta menyediakan
+              pencarian, filter wilayah, pilihan basemap, popup informasi, detail
+              gereja, dan akses lokasi melalui Google Maps.
+            </p>
+          </div>
+
+          <div class="about-maker">
+            <b>Dibuat oleh</b><br>
+            Farhana Fuad | 21110123140147<br>
+            Teknik Geodesi Universitas Diponegoro
+          </div>
+        </div>`;
+
+      document.getElementById('modalBackdrop').classList.add('show');
+    }
+
+    /* UI EVENTS */
+    document.getElementById('zoomIn').onclick=()=>map.zoomIn();
+    document.getElementById('zoomOut').onclick=()=>map.zoomOut();
+
+    const basemapPanelEl=document.getElementById('basemapPanel');
+    document.getElementById('layerBtn').onclick=()=>basemapPanelEl.classList.toggle('open');
+    document.getElementById('baseClose').onclick=()=>basemapPanelEl.classList.remove('open');
+
+    const drawer=document.getElementById('drawer');
+    const searchPanel=document.getElementById('searchPanel');
+    const searchInput=document.getElementById('searchInput');
+    const wilayahSelect=document.getElementById('wilayahSelect');
+
+    function closeTool(){
+      searchPanel.classList.remove('open','mode-filter');
+      searchInput.value='';
+      wilayahSelect.value='';
+      updateMawilInfo('');
+      render(allFeatures);
+    }
+
+    function openTool(mode){
+      drawer.classList.remove('open');
+      searchPanel.classList.remove('mode-filter');
+      searchPanel.classList.add('open');
+      searchInput.style.display='block';
+      wilayahSelect.style.display='none';
+
+      if(mode==='search'){
+        document.getElementById('toolTitle').textContent='Cari Gereja';
+        searchInput.style.display='block';
+        setTimeout(()=>searchInput.focus(),60);
+      }else{
+        document.getElementById('toolTitle').textContent='Filter Wilayah';
+        searchPanel.classList.add('mode-filter');
+        searchInput.style.display='none';
+        wilayahSelect.style.display='block';
+        updateMawilInfo(wilayahSelect.value);
+        setTimeout(()=>wilayahSelect.focus(),60);
+      }
+    }
+
+    document.getElementById('menuBtn').onclick=()=>drawer.classList.add('open');
+    document.getElementById('drawerClose').onclick=()=>drawer.classList.remove('open');
+    document.getElementById('toolClose').onclick=closeTool;
+
+    document.getElementById('rightToggle').onclick=()=>{
+      const side=document.getElementById('sidePanel');
+      side.classList.toggle('collapsed');
+      document.getElementById('rightToggle').textContent=side.classList.contains('collapsed')?'«':'»';
+    };
+
+    document.getElementById('menuSearch').onclick=()=>openTool('search');
+    document.getElementById('menuFilter').onclick=()=>openTool('filter');
+
+    document.getElementById('menuAll').onclick=()=>{
+      closeTool();
+      drawer.classList.remove('open');
+    };
+
+    document.getElementById('menuAbout').onclick=()=>{
+      drawer.classList.remove('open');
+      openAbout();
+    };
+
+    searchInput.addEventListener('input',applyFilter);
+    wilayahSelect.addEventListener('change',applyFilter);
+
+    document.getElementById('modalClose').onclick=()=>document.getElementById('modalBackdrop').classList.remove('show');
+    document.getElementById('modalBackdrop').addEventListener('click',e=>{
+      if(e.target.id==='modalBackdrop') e.currentTarget.classList.remove('show');
+    });
+
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape'){
+        drawer.classList.remove('open');
+        closeTool();
+        basemapPanelEl.classList.remove('open');
+        document.getElementById('modalBackdrop').classList.remove('show');
+      }
+    });
+
+    map.on('movestart',()=>map._userMoved=true);
+    L.control.scale({imperial:true,metric:true,position:'bottomleft'}).addTo(map);
+  </script>
+</body>
+</html>
