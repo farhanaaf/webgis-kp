@@ -210,8 +210,31 @@
     .modal-head{padding:22px 24px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;gap:20px}
     .modal-head h2{margin:0;font-size:25px}.modal-close{border:0;background:transparent;font-size:28px;cursor:pointer}
     .modal-body{padding:22px 24px}
-    .photo-box{height:190px;border-radius:13px;background:#f1f2f5;display:grid;place-items:center;color:#777;margin-bottom:18px;overflow:hidden}
-    .photo-box img{width:100%;height:100%;object-fit:cover}
+   .photo-box {
+  min-height: 280px;
+  max-height: 430px;
+  width: 100%;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #f8f3f7, #eef2f8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+  margin-bottom: 20px;
+  overflow: hidden;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.photo-box img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 414px;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 10px;
+}
     .detail-row{padding:12px 0;border-bottom:1px solid #e8e8ee}
     .detail-row:last-child{border-bottom:0}.detail-row b{display:block;margin-bottom:4px}
     .maps-btn{
