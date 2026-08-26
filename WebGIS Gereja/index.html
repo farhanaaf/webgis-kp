@@ -359,6 +359,301 @@ button,input,select{font:inherit}
 }
 
 </style>
+
+<style id="mobile-parity-pass">
+
+/* =========================================================
+   MOBILE PARITY PASS
+   Desktop (>1000px) intentionally untouched.
+   The mobile header keeps the same identity system:
+   menu + church mark + title/subtitle + author photo/name.
+   ========================================================= */
+@media (max-width:1000px){
+  :root{
+    --header-h:118px;
+  }
+
+  /* Keep the map starting exactly under the branded header. */
+  .header{
+    height:var(--header-h);
+    padding:10px 14px;
+  }
+
+  /* Compact but still recognisable WebGIS header. */
+  .brand-pin,.brand-pin svg{
+    width:50px;
+    height:62px;
+  }
+  .brand{
+    gap:10px;
+  }
+  .brand-text h1{
+    font-size:20px;
+    line-height:1.06;
+    letter-spacing:-.25px;
+  }
+  .brand-text p{
+    font-size:12px;
+    line-height:1.25;
+    margin-top:5px;
+  }
+
+  /* Author identity remains visible on compact screens. */
+  .credit{
+    display:flex;
+    position:absolute;
+    right:14px;
+    bottom:7px;
+    margin:0;
+    gap:7px;
+    align-items:center;
+    padding:3px 8px 3px 4px;
+    border-radius:999px;
+    background:rgba(7,27,67,.28);
+    border:1px solid rgba(255,255,255,.16);
+    max-width:calc(100vw - 90px);
+    line-height:1.1;
+  }
+  .credit-photo{
+    width:30px;
+    height:30px;
+    min-width:30px;
+    min-height:30px;
+    border-width:1.5px;
+    box-shadow:none;
+  }
+  .credit-text{
+    min-width:0;
+    white-space:nowrap;
+  }
+  .credit-text div{
+    font-size:8.5px;
+    line-height:1.15;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .credit .name{
+    font-size:9.5px;
+  }
+
+  /* Keep floating controls visually tied to the map, not the browser chrome. */
+  .map-tools{
+    top:132px;
+  }
+
+  /* The right panel remains the same component as desktop, only scaled. */
+  .side{
+    top:var(--header-h);
+    bottom:8px;
+    width:min(320px,calc(100vw - 56px));
+    max-width:320px;
+    right:8px;
+    padding:10px;
+    border-radius:20px 0 0 20px;
+  }
+  .right-toggle{
+    top:132px;
+    right:min(320px,calc(100vw - 56px));
+    width:46px;
+    height:52px;
+  }
+  .side.collapsed + .right-toggle{
+    right:0;
+  }
+
+  /* Search/filter should read as a WebGIS tool, not a giant card. */
+  .search-panel{
+    left:82px;
+    right:14px;
+    top:126px;
+    width:auto;
+    max-width:320px;
+    padding:12px;
+    border-radius:15px;
+  }
+
+  /* Modal follows the same desktop hierarchy but respects phone edges. */
+  .modal-backdrop{
+    padding:10px;
+  }
+  .modal{
+    width:min(720px,calc(100vw - 20px));
+    max-height:calc(100vh - 20px);
+    border-radius:18px;
+  }
+  .modal-head{
+    padding:17px 18px;
+  }
+  .modal-head h2{
+    font-size:22px;
+    line-height:1.15;
+    max-width:calc(100% - 38px);
+  }
+  .modal-body{
+    padding:14px;
+  }
+  .photo-box{
+    min-height:190px;
+    max-height:45vh;
+    margin-bottom:15px;
+  }
+  .photo-box img{
+    max-height:calc(45vh - 16px);
+  }
+  .detail-row{
+    padding:11px 0;
+  }
+}
+
+@media (max-width:600px){
+  :root{
+    --header-h:136px;
+  }
+
+  .header{
+    height:var(--header-h);
+    display:grid;
+    grid-template-columns:52px minmax(0,1fr);
+    grid-template-rows:92px 32px;
+    column-gap:9px;
+    row-gap:0;
+    padding:8px 12px 4px;
+    align-items:center;
+  }
+
+  .menu-btn{
+    grid-column:1;
+    grid-row:1;
+    width:52px;
+    height:52px;
+    border-radius:13px;
+    align-self:center;
+  }
+
+  .brand{
+    grid-column:2;
+    grid-row:1;
+    min-width:0;
+    width:100%;
+    gap:9px;
+    align-items:center;
+  }
+  .brand-pin,.brand-pin svg{
+    width:48px;
+    height:58px;
+  }
+  .brand-text{
+    min-width:0;
+    flex:1;
+  }
+  .brand-text h1{
+    font-size:18px;
+    line-height:1.02;
+    letter-spacing:-.25px;
+  }
+  .brand-text p{
+    font-size:10.5px;
+    line-height:1.18;
+    margin-top:6px;
+  }
+
+  /* Full author identity, compact enough for a phone. */
+  .credit{
+    grid-column:1 / 3;
+    grid-row:2;
+    position:static;
+    justify-self:end;
+    align-self:end;
+    max-width:100%;
+    margin:0 2px 0 0;
+    padding:2px 8px 2px 4px;
+  }
+  .credit-photo{
+    width:27px;
+    height:27px;
+    min-width:27px;
+    min-height:27px;
+  }
+  .credit-text div{
+    font-size:7.5px;
+  }
+  .credit .name{
+    font-size:8.5px;
+  }
+
+  .map-tools{
+    left:12px;
+    top:150px;
+    gap:13px;
+  }
+  .zoom-box{
+    width:58px;
+    border-radius:16px;
+  }
+  .zoom-box button{
+    height:56px;
+    font-size:29px;
+  }
+  .layer-btn{
+    width:58px;
+    height:60px;
+    border-radius:16px;
+  }
+  .layer-btn svg{
+    width:33px;
+    height:33px;
+  }
+
+  .basemap-panel{
+    top:142px;
+    left:0;
+    width:min(245px,calc(100vw - 24px));
+    max-height:calc(100vh - 190px);
+  }
+
+  .side{
+    top:var(--header-h);
+    width:min(310px,calc(100vw - 54px));
+    max-width:310px;
+    right:7px;
+    bottom:7px;
+    padding:9px;
+    border-radius:19px 0 0 19px;
+  }
+  .right-toggle{
+    top:150px;
+    right:min(310px,calc(100vw - 54px));
+    width:44px;
+    height:50px;
+  }
+  .side.collapsed + .right-toggle{
+    right:0;
+  }
+
+  .search-panel{
+    left:78px;
+    right:12px;
+    top:144px;
+    max-width:none;
+    width:auto;
+  }
+
+  .card{
+    padding:14px 15px;
+    border-radius:16px;
+  }
+  .card h2{
+    font-size:19px;
+  }
+  .tip{
+    font-size:13.5px;
+  }
+  .stat-num{
+    font-size:28px;
+  }
+}
+
+</style>
 </head>
 
 <body>
