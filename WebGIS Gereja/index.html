@@ -1317,6 +1317,156 @@ button,input,select{font:inherit}
 }
 </style>
 
+
+<style id="mobile-header-filter-final-adjustment">
+/* =========================================================
+   TARGETED MOBILE ADJUSTMENT
+   - Header identity is truly centered.
+   - Filter panel and right-sidebar toggle never overlap.
+   - Desktop layout remains untouched.
+   ========================================================= */
+@media (max-width: 600px){
+
+  /* ---- HEADER IDENTITY: centered as one compact identity bar ---- */
+  .header{
+    grid-template-columns:50px 46px minmax(0,1fr)!important;
+    grid-template-rows:84px 40px!important;
+  }
+
+  .credit{
+    grid-column:1 / 4!important;
+    grid-row:2!important;
+    justify-self:center!important;
+    align-self:center!important;
+    width:max-content!important;
+    max-width:calc(100vw - 28px)!important;
+    margin:0 auto!important;
+    padding:4px 11px 4px 5px!important;
+    gap:8px!important;
+    border-radius:13px!important;
+  }
+
+  .credit-photo{
+    width:34px!important;
+    height:34px!important;
+    min-width:34px!important;
+    min-height:34px!important;
+  }
+
+  .credit-text div{
+    font-size:9px!important;
+    line-height:1.12!important;
+  }
+
+  .credit .name{
+    font-size:11px!important;
+    line-height:1.12!important;
+  }
+
+  .credit-text div:last-child{
+    font-size:8.5px!important;
+  }
+
+  /* ---- FILTER: give it its own lane, away from the right toggle ---- */
+  .search-panel{
+    left:132px!important;
+    right:58px!important;
+    top:calc(var(--header-h) + 14px)!important;
+    width:auto!important;
+    max-width:none!important;
+    z-index:1300!important;
+    padding:12px!important;
+    border-radius:18px!important;
+  }
+
+  .search-panel .tool-head{
+    margin-bottom:10px!important;
+  }
+
+  .search-title{
+    font-size:18px!important;
+  }
+
+  .tool-close{
+    width:34px!important;
+    height:34px!important;
+    border-radius:10px!important;
+    font-size:22px!important;
+    position:relative!important;
+    z-index:5!important;
+  }
+
+  .filter-select{
+    height:44px!important;
+    font-size:14px!important;
+  }
+
+  .mawil-info{
+    margin-top:10px!important;
+    padding:12px 13px!important;
+    border-radius:13px!important;
+  }
+
+  .mawil-info-title{
+    font-size:16px!important;
+  }
+
+  .mawil-info-scope{
+    font-size:13.5px!important;
+    line-height:1.5!important;
+  }
+
+  .mawil-info-note{
+    font-size:11.5px!important;
+  }
+
+  /* Keep the sidebar toggle in its own fixed lane on the right. */
+  .right-toggle{
+    right:0!important;
+    top:calc(var(--header-h) + 14px)!important;
+    width:48px!important;
+    height:54px!important;
+    z-index:1400!important;
+    border-radius:15px 0 0 15px!important;
+  }
+
+  /* When sidebar is OPEN, its toggle belongs to the sidebar edge,
+     but it must still not cover the filter panel. */
+  .side:not(.collapsed) + .right-toggle{
+    right:min(318px,calc(100vw - 48px))!important;
+  }
+
+}
+
+@media (max-width:420px){
+  /* Narrow phones: reserve a slightly wider safety gap for the toggle. */
+  .search-panel{
+    left:78px!important;
+    right:58px!important;
+  }
+
+  .credit{
+    max-width:calc(100vw - 20px)!important;
+  }
+}
+
+@media (max-width:360px){
+  .search-panel{
+    left:68px!important;
+    right:54px!important;
+  }
+
+  .credit{
+    padding-right:8px!important;
+    gap:6px!important;
+  }
+
+  .credit .name{
+    font-size:10px!important;
+  }
+}
+</style>
+
 </head>
 
 <body>
