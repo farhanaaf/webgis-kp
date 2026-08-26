@@ -75,16 +75,100 @@
     }
     .layer-btn svg{width:38px;height:38px}
     .basemap-panel{
-      width:205px;padding:14px 12px;background:#fff;border-radius:16px;box-shadow:var(--shadow);
-      display:none
+      position:absolute;
+      left:0;
+      top:250px;
+      width:245px;
+      padding:46px 12px 12px;
+      background:rgba(255,255,255,.98);
+      border:1px solid #eadff0;
+      border-radius:18px;
+      box-shadow:0 16px 34px rgba(7,27,67,.18);
+      display:none;
+      z-index:20;
     }
     .basemap-panel.open{display:block}
-    .base-item{display:flex;align-items:center;gap:10px;padding:7px 3px;cursor:pointer}
-    .base-thumb{width:100px;height:58px;border-radius:10px;object-fit:cover;border:1px solid #ddd}
-    .base-radio{width:22px;height:22px;border:2px solid #cfd3df;border-radius:50%;margin-left:auto;position:relative}
+    .basemap-panel::before{
+      content:"";
+      position:absolute;
+      left:22px;
+      top:-9px;
+      width:18px;
+      height:18px;
+      background:#fff;
+      border-left:1px solid #eadff0;
+      border-top:1px solid #eadff0;
+      transform:rotate(45deg);
+    }
+    .base-close{
+      position:absolute;
+      right:10px;
+      top:9px;
+      width:32px;
+      height:32px;
+      border:1px solid #eadff0;
+      border-radius:10px;
+      background:#fff;
+      color:var(--navy);
+      font-size:22px;
+      line-height:1;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      z-index:2;
+      box-shadow:0 4px 12px rgba(7,27,67,.08);
+    }
+    .base-item{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      width:100%;
+      min-height:48px;
+      padding:7px 9px;
+      margin:2px 0;
+      border:1px solid transparent;
+      border-radius:12px;
+      background:transparent;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+    .base-item:hover,
+    .base-item.active{
+      background:#fff0f7;
+      border-color:#f5c1d9;
+    }
+    .base-thumb{
+      width:42px;
+      height:34px;
+      border-radius:8px;
+      object-fit:cover;
+      border:1px solid #ddd;
+      flex:none;
+    }
+    .base-radio{
+      width:21px;
+      height:21px;
+      border:2px solid #cfd3df;
+      border-radius:50%;
+      margin-left:auto;
+      position:relative;
+      flex:none;
+      background:#fff;
+    }
     .base-item.active .base-radio{border-color:var(--pink)}
-    .base-item.active .base-radio:after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--pink)}
-    .base-name{font-size:14px;flex:1}
+    .base-item.active .base-radio:after{
+      content:"";
+      position:absolute;
+      inset:4px;
+      border-radius:50%;
+      background:var(--pink);
+    }
+    .base-name{
+      font-size:14px;
+      font-weight:600;
+      flex:1;
+      white-space:nowrap;
+    }
 
     /* RIGHT PANEL */
     /* Tombol tetap berada di luar sidebar, jadi tidak ikut hilang saat sidebar di-hide. */
@@ -445,10 +529,13 @@
     .search-panel.mode-filter .filter-select{display:block}
     .about-content b{font-weight:800}
     @media(max-width:1000px){
-
-      .credit{display:none}.brand-text h1{font-size:25px}.brand-text p{font-size:15px}
-      .brand-pin{width:50px;height:60px}.brand-pin svg{width:50px;height:60px}
-      .side{width:340px}.right-toggle{display:none}
+      .credit{display:none}
+      .brand-text h1{font-size:25px}
+      .brand-text p{font-size:15px}
+      .brand-pin{width:50px;height:60px}
+      .brand-pin svg{width:50px;height:60px}
+      .side{width:340px}
+      .right-toggle{display:block}
       .search-panel{right:20px}
     }
     @media(max-width:700px){
@@ -458,27 +545,393 @@
       .brand-text p{font-size:12px}
       .brand-pin{width:48px;height:58px}
       .brand-pin svg{width:48px;height:58px}
-      .map-tools{left:14px;top:108px}
+      .map-tools{left:14px;top:108px;z-index:1000}
       .zoom-box{width:58px}
       .zoom-box button{height:55px}
       .layer-btn{width:58px;height:60px}
       .basemap-panel{
-        left:0;
-        top:141px;
-        width:calc(100vw - 28px);
-        max-width:250px;
-        max-height:285px;
-        padding:44px 10px 10px;
-        border-radius:17px
+        left:0 !important;
+        top:202px !important;
+        width:250px;
+        max-width:calc(100vw - 28px);
+        max-height:300px;
+        overflow-y:auto;
+        padding:46px 10px 10px;
+        border-radius:18px;
       }
-      .side{top:92px;width:calc(100% - 12px);padding:10px 10px 18px}
-      .right-toggle{left:-38px;width:38px;height:50px;top:18px}
+      .base-item{min-height:48px}
+      .base-name{font-size:14px}
+      .right-toggle{
+        display:grid !important;
+        position:absolute;
+        left:auto;
+        right:340px;
+        top:110px;
+        width:42px;
+        height:50px;
+        border-radius:16px 0 0 16px;
+        z-index:1005;
+      }
+      .side{
+        top:92px;
+        width:min(340px,calc(100vw - 52px));
+        max-height:calc(100vh - 106px);
+        padding:10px 10px 18px;
+        border-radius:20px 0 0 20px;
+      }
+      .side.collapsed{transform:translateX(100%)}
       .search-panel{left:84px;right:14px;top:106px;width:auto}
       .drawer{top:92px;width:300px}
       .card{padding:15px}
     }
 
   </style>
+
+
+
+
+
+<style id="final-coherent-layout">
+/* =========================================================
+   FINAL COHERENT LAYOUT
+   - Sidebar toggle stays attached to sidebar.
+   - Basemap panel stays below Layers.
+   - No fixed-position basemap hacks.
+   - Desktop and responsive/tablet/mobile share the same visual system.
+   ========================================================= */
+
+.map-tools{
+  overflow:visible !important;
+  position:absolute !important;
+  z-index:1000 !important;
+}
+
+/* Desktop */
+.basemap-panel{
+  left:0 !important;
+  top:258px !important;
+  width:245px !important;
+  max-width:calc(100vw - 48px) !important;
+  max-height:360px !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  margin:0 !important;
+  z-index:20 !important;
+}
+
+.right-toggle{
+  right:350px !important;
+  top:128px !important;
+  width:42px !important;
+  height:52px !important;
+  border-radius:14px 0 0 14px !important;
+  z-index:1002 !important;
+}
+.side.collapsed + .right-toggle{
+  right:0 !important;
+}
+
+/* Keep the toggle visually touching the sidebar. */
+.side{
+  width:350px !important;
+  top:104px !important;
+}
+
+/* ---------------------------------------------------------
+   Responsive / tablet / large mobile
+   This matches the approved "photo" composition:
+   map on the left, compact sidebar on the right.
+   --------------------------------------------------------- */
+@media (max-width:1100px){
+  .header{
+    height:150px !important;
+    padding:20px 28px !important;
+    gap:18px !important;
+  }
+  .menu-btn{
+    width:72px !important;
+    height:72px !important;
+    border-radius:15px !important;
+  }
+  .hamb{width:36px !important}
+  .hamb span{height:4px !important;margin:6px 0 !important}
+  .brand{gap:18px !important}
+  .brand-pin,
+  .brand-pin svg{
+    width:74px !important;
+    height:88px !important;
+  }
+  .brand-text h1{
+    font-size:34px !important;
+    line-height:1.08 !important;
+  }
+  .brand-text p{
+    font-size:20px !important;
+    margin-top:8px !important;
+  }
+
+  .side{
+    top:150px !important;
+    width:45vw !important;
+    min-width:390px !important;
+    max-width:460px !important;
+    padding:18px 18px 24px !important;
+  }
+  .right-toggle{
+    right:45vw !important;
+    top:190px !important;
+    width:64px !important;
+    height:66px !important;
+    border-radius:16px 0 0 16px !important;
+    font-size:34px !important;
+  }
+  .side.collapsed + .right-toggle{
+    right:0 !important;
+  }
+
+  .map-tools{
+    left:32px !important;
+    top:210px !important;
+    gap:32px !important;
+  }
+  .zoom-box{
+    width:86px !important;
+    border-radius:20px !important;
+  }
+  .zoom-box button{
+    height:105px !important;
+    font-size:40px !important;
+  }
+  .layer-btn{
+    width:86px !important;
+    height:112px !important;
+    border-radius:20px !important;
+  }
+  .layer-btn svg{
+    width:48px !important;
+    height:48px !important;
+  }
+
+  /* IMPORTANT: panel is a child of map-tools, so it sits
+     below the Layers button with a real gap. */
+  .basemap-panel{
+    left:0 !important;
+    top:402px !important;
+    width:350px !important;
+    max-width:calc(100vw - 64px) !important;
+    max-height:650px !important;
+    padding:54px 12px 14px !important;
+    border-radius:22px !important;
+  }
+  .base-item{
+    min-height:74px !important;
+    padding:10px 12px !important;
+    gap:14px !important;
+    border-radius:14px !important;
+  }
+  .base-thumb{
+    width:88px !important;
+    height:64px !important;
+    border-radius:10px !important;
+  }
+  .base-symbol{
+    width:38px !important;
+    height:38px !important;
+    border-radius:11px !important;
+    font-size:17px !important;
+  }
+  .base-name{
+    font-size:18px !important;
+  }
+  .base-radio{
+    width:26px !important;
+    height:26px !important;
+  }
+  .base-item.active .base-radio:after{
+    inset:5px !important;
+  }
+  .base-close{
+    width:42px !important;
+    height:42px !important;
+    right:12px !important;
+    top:12px !important;
+    border-radius:12px !important;
+    font-size:27px !important;
+  }
+
+  .card{
+    padding:22px 24px !important;
+    border-radius:20px !important;
+    margin-bottom:16px !important;
+  }
+  .card-icon{
+    width:62px !important;
+    height:62px !important;
+    border-radius:15px !important;
+  }
+  .card h2{font-size:28px !important}
+  .card .sub{font-size:16px !important}
+  .legend-row{
+    font-size:19px !important;
+    gap:16px !important;
+    margin:18px 0 !important;
+  }
+  .legend-dot{
+    width:28px !important;
+    height:28px !important;
+  }
+  .tip{
+    font-size:18px !important;
+    line-height:1.8 !important;
+  }
+  .stat-icon{
+    height:60px !important;
+    font-size:23px !important;
+  }
+  .stat-num{font-size:38px !important}
+  .stat-label{font-size:16px !important}
+}
+
+/* Phone: keep the same composition, but scale it down rather
+   than turning the sidebar into a full-screen wall. */
+@media (max-width:700px){
+  .header{
+    height:108px !important;
+    padding:12px 14px !important;
+    gap:10px !important;
+  }
+  .menu-btn{
+    width:54px !important;
+    height:54px !important;
+    flex:none !important;
+  }
+  .hamb{width:30px !important}
+  .hamb span{height:3px !important;margin:5px 0 !important}
+  .brand{gap:10px !important}
+  .brand-pin,
+  .brand-pin svg{
+    width:56px !important;
+    height:68px !important;
+  }
+  .brand-text h1{
+    font-size:21px !important;
+    line-height:1.05 !important;
+  }
+  .brand-text p{
+    font-size:13px !important;
+    line-height:1.25 !important;
+    margin-top:6px !important;
+  }
+
+  .side{
+    top:108px !important;
+    width:min(82vw,360px) !important;
+    min-width:0 !important;
+    max-width:360px !important;
+    padding:10px 10px 16px !important;
+    border-radius:20px 0 0 20px !important;
+  }
+  .right-toggle{
+    right:min(82vw,360px) !important;
+    top:124px !important;
+    width:48px !important;
+    height:54px !important;
+    border-radius:14px 0 0 14px !important;
+    font-size:27px !important;
+  }
+  .side.collapsed + .right-toggle{right:0 !important}
+
+  .map-tools{
+    left:14px !important;
+    top:126px !important;
+    gap:18px !important;
+  }
+  .zoom-box{width:62px !important;border-radius:17px !important}
+  .zoom-box button{
+    height:62px !important;
+    font-size:31px !important;
+  }
+  .layer-btn{
+    width:62px !important;
+    height:66px !important;
+    border-radius:17px !important;
+  }
+  .layer-btn svg{width:38px !important;height:38px !important}
+
+  .basemap-panel{
+    top:230px !important;
+    width:270px !important;
+    max-width:calc(100vw - 28px) !important;
+    max-height:calc(100vh - 260px) !important;
+    padding:48px 10px 10px !important;
+    border-radius:18px !important;
+  }
+  .base-item{
+    min-height:54px !important;
+    padding:8px 9px !important;
+    gap:10px !important;
+  }
+  .base-thumb{
+    width:58px !important;
+    height:42px !important;
+  }
+  .base-symbol{
+    width:32px !important;
+    height:32px !important;
+    font-size:14px !important;
+  }
+  .base-name{font-size:14px !important}
+  .base-radio{
+    width:22px !important;
+    height:22px !important;
+  }
+  .base-close{
+    width:34px !important;
+    height:34px !important;
+    right:9px !important;
+    top:9px !important;
+    font-size:22px !important;
+  }
+
+  .card{
+    padding:16px !important;
+    border-radius:17px !important;
+    margin-bottom:12px !important;
+  }
+  .card-icon{
+    width:50px !important;
+    height:50px !important;
+    border-radius:13px !important;
+  }
+  .card h2{font-size:21px !important}
+  .card .sub{font-size:13px !important}
+  .legend-row{
+    font-size:15px !important;
+    gap:12px !important;
+    margin:13px 0 !important;
+  }
+  .legend-dot{
+    width:23px !important;
+    height:23px !important;
+  }
+  .tip{
+    font-size:15px !important;
+    line-height:1.65 !important;
+  }
+  .stat-icon{height:48px !important;font-size:20px !important}
+  .stat-num{font-size:32px !important}
+  .stat-label{font-size:13px !important}
+}
+
+/* Very narrow phones: never let text escape the cards. */
+@media (max-width:420px){
+  .brand-text h1{font-size:18px !important}
+  .brand-text p{font-size:11px !important}
+  .side{width:84vw !important}
+  .right-toggle{right:84vw !important}
+  .basemap-panel{width:250px !important}
+}
+</style>
 </head>
 
 <body>
