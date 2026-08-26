@@ -1425,6 +1425,111 @@ button,input,select{font:inherit}
   }
 </style>
 
+
+<style id="final-mobile-tool-position-fix">
+/*
+  FINAL MOBILE FIX
+  Search / Filter panel dan tombol hide sidebar tidak boleh saling menumpuk.
+  Desktop tidak diubah.
+*/
+@media (max-width:1000px){
+
+  /* Tool Cari/Filter: selalu punya ruang sendiri di sebelah kiri tombol sidebar. */
+  .search-panel{
+    top:calc(var(--header-h) + 14px)!important;
+    left:88px!important;
+    right:58px!important;
+    width:auto!important;
+    max-width:none!important;
+    z-index:1200!important;
+    padding:13px!important;
+    border-radius:16px!important;
+  }
+
+  /* Tombol X tetap berada di dalam panel, bukan di bawah tombol sidebar. */
+  .search-panel .tool-head{
+    position:relative!important;
+    min-height:30px!important;
+    padding-right:0!important;
+  }
+
+  .search-panel .tool-close{
+    position:absolute!important;
+    top:0!important;
+    right:0!important;
+    width:32px!important;
+    height:32px!important;
+    z-index:3!important;
+  }
+
+  /* Beri ruang kanan pada judul agar tidak pernah bertabrakan dengan X. */
+  .search-panel .search-title{
+    padding-right:42px!important;
+    font-size:20px!important;
+    line-height:1.2!important;
+  }
+
+  .search-panel .search-input,
+  .search-panel .filter-select{
+    height:46px!important;
+    font-size:14px!important;
+  }
+
+  .search-panel .mawil-info{
+    margin-top:10px!important;
+    padding:12px 13px!important;
+  }
+
+  .search-panel .mawil-info-title{
+    font-size:16px!important;
+  }
+
+  .search-panel .mawil-info-scope{
+    font-size:14px!important;
+    line-height:1.5!important;
+  }
+
+  .search-panel .mawil-info-note{
+    font-size:12px!important;
+  }
+
+  /* Tombol sidebar berdiri sendiri di paling kanan. */
+  .right-toggle{
+    top:calc(var(--header-h) + 14px)!important;
+    right:0!important;
+    z-index:1500!important;
+    width:50px!important;
+    height:54px!important;
+    border-radius:15px 0 0 15px!important;
+  }
+
+  /* Saat sidebar dibuka, tombol tetap menempel di sidebar.
+     Panel Cari/Filter tetap tidak ikut tertutup/tertindih. */
+  .side:not(.collapsed) + .right-toggle{
+    right:var(--side-w)!important;
+  }
+}
+
+/* Ponsel sempit: panel dibuat sedikit lebih lebar tanpa menyentuh tombol kanan. */
+@media (max-width:600px){
+  .search-panel{
+    left:72px!important;
+    right:58px!important;
+    top:calc(var(--header-h) + 12px)!important;
+  }
+
+  .search-panel .search-title{
+    font-size:18px!important;
+  }
+
+  .right-toggle{
+    width:48px!important;
+    height:52px!important;
+    font-size:25px!important;
+  }
+}
+</style>
+
 </head>
 
 <body>
