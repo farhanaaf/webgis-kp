@@ -932,6 +932,167 @@
   .basemap-panel{width:250px !important}
 }
 </style>
+
+<style id="mobile-final-fix">
+/* ===== MOBILE FINAL POLISH ===== */
+@media (max-width:700px){
+  /* Keep the same visual language, but give the map breathing room. */
+  .header{
+    height:108px !important;
+    padding:12px 14px !important;
+    gap:10px !important;
+  }
+  .menu-btn{width:54px !important;height:54px !important}
+  .brand{gap:10px !important}
+  .brand-pin,.brand-pin svg{width:54px !important;height:66px !important}
+  .brand-text{min-width:0 !important}
+  .brand-text h1{
+    font-size:20px !important;
+    line-height:1.05 !important;
+    letter-spacing:-.3px !important;
+  }
+  .brand-text p{
+    font-size:12px !important;
+    line-height:1.25 !important;
+    margin-top:6px !important;
+  }
+
+  /* Sidebar = floating right card, not a wall. */
+  .side{
+    top:108px !important;
+    bottom:12px !important;
+    right:10px !important;
+    width:min(300px,calc(100vw - 70px)) !important;
+    min-width:0 !important;
+    max-width:300px !important;
+    padding:10px !important;
+    border-radius:20px !important;
+    box-shadow:0 12px 30px rgba(7,27,67,.18) !important;
+  }
+  .side.collapsed{transform:translateX(calc(100% + 20px)) !important}
+
+  .right-toggle{
+    right:min(300px,calc(100vw - 70px)) !important;
+    top:124px !important;
+    width:46px !important;
+    height:52px !important;
+    border-radius:14px 0 0 14px !important;
+    font-size:26px !important;
+    box-shadow:-4px 5px 15px rgba(7,27,67,.16) !important;
+  }
+  .side.collapsed + .right-toggle{right:0 !important}
+
+  /* Compact cards like the approved desktop/photo version. */
+  .card{
+    padding:15px 16px !important;
+    border-radius:17px !important;
+    margin-bottom:11px !important;
+  }
+  .card-head{gap:10px !important;margin-bottom:12px !important}
+  .card-icon{
+    width:44px !important;height:44px !important;
+    border-radius:12px !important;
+  }
+  .card h2{font-size:20px !important}
+  .card .sub{font-size:12px !important}
+  .legend-row{
+    font-size:14px !important;
+    gap:11px !important;
+    margin:12px 0 !important;
+  }
+  .legend-dot{
+    width:21px !important;height:21px !important;
+  }
+  .tip{
+    font-size:14px !important;
+    line-height:1.6 !important;
+  }
+  .stat{padding:4px 5px !important}
+  .stat-icon{height:42px !important;font-size:18px !important}
+  .stat-num{font-size:30px !important}
+  .stat-label{font-size:12px !important}
+
+  /* Map controls stay in one clean vertical stack. */
+  .map-tools{
+    left:14px !important;
+    top:124px !important;
+    gap:16px !important;
+    z-index:1200 !important;
+  }
+  .zoom-box{
+    width:62px !important;
+    border-radius:17px !important;
+  }
+  .zoom-box button{
+    height:60px !important;
+    font-size:31px !important;
+  }
+  .layer-btn{
+    width:62px !important;
+    height:64px !important;
+    border-radius:17px !important;
+  }
+  .layer-btn svg{width:36px !important;height:36px !important}
+
+  /* Basemap is a child of map-tools: 60+60+16+64+16 = 216px.
+     So 220px places it just below Layers, with a small gap. */
+  .basemap-panel{
+    left:0 !important;
+    top:220px !important;
+    width:250px !important;
+    max-width:calc(100vw - 28px) !important;
+    max-height:calc(100vh - 255px) !important;
+    padding:44px 9px 9px !important;
+    border-radius:18px !important;
+    overflow-y:auto !important;
+    z-index:1300 !important;
+  }
+  .basemap-panel::before{
+    left:20px !important;
+    top:-8px !important;
+  }
+  .base-close{
+    width:34px !important;height:34px !important;
+    right:9px !important;top:8px !important;
+    border-radius:10px !important;
+    font-size:22px !important;
+  }
+  .base-item{
+    min-height:50px !important;
+    padding:7px 8px !important;
+    gap:9px !important;
+    border-radius:11px !important;
+  }
+  .base-thumb{
+    width:48px !important;height:36px !important;
+    border-radius:8px !important;
+  }
+  .base-name{font-size:13px !important}
+  .base-radio{width:21px !important;height:21px !important}
+  .base-item.active .base-radio:after{inset:4px !important}
+
+  /* When basemap is open on a phone, temporarily hide the right
+     information panel so the basemap selector never sits on top of it.
+     The JS restores it when the basemap closes. */
+  body.basemap-mobile-open .side{
+    transform:translateX(calc(100% + 20px)) !important;
+  }
+  body.basemap-mobile-open .right-toggle{
+    right:0 !important;
+  }
+}
+
+@media (max-width:360px){
+  .brand-text h1{font-size:18px !important}
+  .brand-text p{font-size:11px !important}
+  .side{
+    width:calc(100vw - 64px) !important;
+    right:8px !important;
+  }
+  .right-toggle{right:calc(100vw - 64px) !important}
+  .basemap-panel{width:240px !important}
+}
+</style>
 </head>
 
 <body>
@@ -1398,8 +1559,17 @@
     document.getElementById('zoomOut').onclick=()=>map.zoomOut();
 
     const basemapPanelEl=document.getElementById('basemapPanel');
-    document.getElementById('layerBtn').onclick=()=>basemapPanelEl.classList.toggle('open');
-    document.getElementById('baseClose').onclick=()=>basemapPanelEl.classList.remove('open');
+    document.getElementById('layerBtn').onclick=()=>{
+      const opening=!basemapPanelEl.classList.contains('open');
+      basemapPanelEl.classList.toggle('open');
+      if(window.innerWidth<=700){
+        document.body.classList.toggle('basemap-mobile-open',opening);
+      }
+    };
+    document.getElementById('baseClose').onclick=()=>{
+      basemapPanelEl.classList.remove('open');
+      document.body.classList.remove('basemap-mobile-open');
+    };
 
     const drawer=document.getElementById('drawer');
     const searchPanel=document.getElementById('searchPanel');
@@ -1471,6 +1641,7 @@
         drawer.classList.remove('open');
         closeTool();
         basemapPanelEl.classList.remove('open');
+        document.body.classList.remove('basemap-mobile-open');
         document.getElementById('modalBackdrop').classList.remove('show');
       }
     });
