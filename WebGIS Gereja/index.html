@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -7,7 +8,6 @@
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         crossorigin=""/>
-  
 
 
 
@@ -169,7 +169,17 @@ button,input,select{font:inherit}
 .card h2{font-size:20px;line-height:1.2;margin:2px 0 4px}
 .card .sub{font-size:13px;color:var(--muted)}
 .legend-row{display:flex;align-items:center;gap:13px;margin:13px 0;font-size:15px}
-.legend-dot{width:22px;height:22px;border-radius:50%;background:var(--pink);border:3px solid #fff;box-shadow:0 0 0 2px var(--pink);flex:none}
+.legend-dot{
+  width:22px;height:22px;border-radius:50%;flex:none;
+}
+.legend-dot.normal{
+  background:#fff;border:3px solid var(--pink);
+  box-shadow:0 0 0 1px rgba(245,27,120,.25);
+}
+.legend-dot.filtered{
+  background:var(--pink);border:3px solid #fff;
+  box-shadow:0 0 0 2px var(--pink);
+}
 .tip{font-size:15px;line-height:1.65;color:#17315c}
 .tip strong{color:var(--pink)}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);padding:3px 0}
@@ -854,7 +864,6 @@ button,input,select{font:inherit}
 }
 </style>
 
-
 <style id="mobile-final-ui-fix">
 /* =========================================================
    FINAL MOBILE UX FIX
@@ -1317,7 +1326,6 @@ button,input,select{font:inherit}
 }
 </style>
 
-
 <style id="about-academic-identity">
 .about-content{color:#24395e;line-height:1.65}
 .about-lead{margin:0 0 16px;padding:15px 17px;border-radius:14px;background:linear-gradient(135deg,#fff0f7,#f4f6ff);border:1px solid #f3d8e8;color:#17315c}
@@ -1364,7 +1372,6 @@ button,input,select{font:inherit}
  .about-section p{font-size:12.5px}
 }
 </style>
-
 
 <style id="about-company-layout-fix">
   .about-profile-grid{
@@ -1424,7 +1431,6 @@ button,input,select{font:inherit}
     }
   }
 </style>
-
 
 <style id="final-mobile-tool-position-fix">
 /*
@@ -1530,15 +1536,444 @@ button,input,select{font:inherit}
 }
 </style>
 
+<style id="final-kp-revision">
+/* ===== FINAL KP REVISION ===== */
+:root{--side-w:330px}
+
+/* Sidebar menu selalu terbuka di kiri */
+.drawer{
+  position:absolute!important;left:0!important;top:var(--header-h)!important;bottom:0!important;
+  width:var(--side-w)!important;z-index:3000!important;
+  background:rgba(255,255,255,.98)!important;
+  box-shadow:10px 0 28px rgba(7,27,67,.14)!important;
+  transform:none!important;transition:none!important;
+  padding:18px 16px 24px!important;overflow:auto!important;
+}
+.drawer-head{margin-bottom:8px!important}
+.drawer-head .close-btn{display:none!important}
+.drawer h2{font-size:22px!important}
+.menu-item{
+  display:block!important;padding:13px 2px!important;cursor:default!important;
+}
+.menu-item > div:first-child{display:flex;gap:12px;align-items:flex-start}
+.menu-ico{width:40px!important;height:40px!important;border-radius:11px!important;font-size:19px!important}
+.menu-item b{font-size:15px!important;margin:1px 0 3px!important}
+.menu-item span{font-size:12px!important;line-height:1.4!important}
+
+/* Search dan filter langsung di bawah menu masing-masing */
+.inline-control{margin:9px 0 2px 52px}
+.inline-control input,.inline-control select{
+  width:100%;height:40px;border:1px solid #d9dce5;border-radius:10px;
+  padding:0 11px;font-size:12.5px;outline:none;background:#fff;color:var(--text)
+}
+.inline-control input:focus,.inline-control select:focus{border-color:var(--pink)}
+.inline-mawil-info{margin:8px 0 0 52px;padding:9px 10px;border:1px solid #f5b5d4;border-radius:10px;background:#fff7fb}
+.inline-mawil-info[hidden]{display:none}
+.inline-mawil-info .mawil-info-title{font-size:13px;margin-bottom:3px}
+.inline-mawil-info .mawil-info-scope{font-size:11.5px;line-height:1.4}
+.inline-mawil-info .mawil-info-note{font-size:10px;line-height:1.35;margin-top:4px}
+
+/* Konten sidebar kanan dipindahkan ke bawah menu */
+.drawer .moved-info{margin-top:6px}
+.drawer .card{padding:13px 14px!important;margin:0 0 10px!important;border-radius:14px!important}
+.drawer .card-head{gap:9px!important;margin-bottom:9px!important}
+.drawer .card-icon{width:38px!important;height:38px!important;border-radius:10px!important;font-size:16px!important}
+.drawer .card h2{font-size:16px!important}
+.drawer .card .sub{font-size:11px!important}
+.drawer .legend-row{font-size:12.5px!important;margin:9px 0!important;gap:9px!important}
+.drawer .legend-dot{width:18px!important;height:18px!important}
+.drawer .tip{font-size:12.5px!important;line-height:1.5!important}
+.drawer .stats{padding:2px 0!important}
+.drawer .stat-icon{height:30px!important;font-size:16px!important}
+.drawer .stat-num{font-size:24px!important}
+.drawer .stat-label{font-size:10px!important}
+
+/* Tidak ada floating search/filter dan sidebar kanan lagi */
+.search-panel,.side,.right-toggle{display:none!important}
+.menu-btn{display:none!important}
+
+/* Kontrol peta dipindah ke kanan bawah agar tidak tertutup sidebar */
+.map-tools{left:auto!important;right:20px!important;top:auto!important;bottom:24px!important;z-index:1200!important}
+.basemap-panel{left:auto!important;right:0!important;top:auto!important;bottom:88px!important}
+
+/* Peta awal dibuat lebih luas dan tidak terlalu zoom */
+@media (min-width:601px){
+  #map{left:0!important}
+}
+@media (max-width:600px){
+  :root{--side-w:min(292px,82vw);--header-h:118px}
+  .drawer{top:var(--header-h)!important;width:var(--side-w)!important;padding:14px 12px 18px!important}
+  .drawer h2{font-size:20px!important}
+  .menu-item{padding:11px 1px!important}
+  .menu-ico{width:37px!important;height:37px!important;font-size:17px!important}
+  .menu-item b{font-size:14px!important}
+  .menu-item span{font-size:11px!important}
+  .inline-control{margin-left:49px}
+  .inline-control input,.inline-control select{height:38px;font-size:12px}
+  .inline-mawil-info{margin-left:49px}
+  .map-tools{right:12px!important;bottom:12px!important}
+}
+
+/* FINAL REVISI: header lebih ringkas + koordinat kursor peta */
+:root{--header-h:96px!important}
+.header{height:var(--header-h)!important;padding:10px 24px!important;gap:12px!important}
+.brand{gap:12px!important}
+.brand-pin{width:50px!important;height:60px!important}
+.brand-pin svg{width:50px!important;height:60px!important}
+.brand-text h1{font-size:27px!important;letter-spacing:-.5px!important}
+.brand-text p{font-size:16px!important;margin-top:5px!important}
+.credit{gap:10px!important}
+.credit-photo{width:50px!important;height:50px!important;min-width:50px!important;min-height:50px!important}
+.credit-text div{font-size:13px!important}
+.coords-control{position:absolute;right:18px;bottom:14px;z-index:1200;background:rgba(255,255,255,.94);border:1px solid rgba(7,27,67,.12);border-radius:9px;padding:6px 10px;box-shadow:0 5px 16px rgba(7,27,67,.14);font-size:12px;color:#17315c;line-height:1.2;pointer-events:none;white-space:nowrap}
+@media(max-width:600px){:root{--header-h:92px!important}.header{padding:8px 12px!important}.brand-pin{width:42px!important;height:50px!important}.brand-pin svg{width:42px!important;height:50px!important}.brand-text h1{font-size:19px!important}.brand-text p{font-size:12px!important}.credit-photo{width:40px!important;height:40px!important;min-width:40px!important;min-height:40px!important}.credit-text div{font-size:10px!important}.coords-control{right:10px;bottom:10px;font-size:10px;padding:5px 7px}}
+
+</style>
+
+
+<style id="final-map-bottom-polish">
+  /* FINAL POLISH: koordinat tidak lagi bertumpuk dengan attribution Leaflet */
+  .  .coords-control{
+    position:absolute !important;
+    top: calc(var(--header-h) + 16px) !important;
+    right:20px !important;
+    bottom:auto !important;
+    z-index:1200 !important;
+    background:rgba(255,255,255,.97) !important;
+    border:1px solid rgba(7,27,67,.10) !important;
+    border-radius:10px !important;
+    padding:7px 12px !important;
+    box-shadow:0 5px 16px rgba(7,27,67,.13) !important;
+    font-size:12px !important;
+    line-height:1.2 !important;
+    color:#17315c !important;
+    pointer-events:none !important;
+    white-space:nowrap !important;
+  }
+
+  /* Attribution selalu punya ruang sendiri di paling bawah */
+  .leaflet-control-attribution{
+    position:relative !important;
+    z-index:1100 !important;
+    margin:0 !important;
+    padding:2px 6px !important;
+    border-radius:7px 0 0 0 !important;
+    background:rgba(255,255,255,.92) !important;
+    font-size:11px !important;
+    line-height:16px !important;
+  }
+
+  .leaflet-bottom{
+    bottom:0 !important;
+  }
+
+  .leaflet-control-scale{
+    margin-bottom:8px !important;
+    margin-left:12px !important;
+  }
+
+    @media (max-width:600px){
+    .coords-control{
+      top: calc(var(--header-h) + 10px) !important;
+      right:10px !important;
+      bottom:auto !important;
+      padding:6px 9px !important;
+      font-size:10px !important;
+      border-radius:9px !important;
+    }
+    .leaflet-control-attribution{
+      font-size:9px !important;
+      line-height:14px !important;
+      padding:1px 4px !important;
+    }
+  }
+</style>
+<style id="final-size-and-position-fix">
+/* Perbaikan ukuran tombol map & posisi koordinat — override terakhir */
+@media (max-width:1000px){
+  .map-tools{
+    gap:10px!important;
+  }
+  .zoom-box{
+    width:44px!important;
+    border-radius:12px!important;
+  }
+  .zoom-box button{
+    height:42px!important;
+    font-size:20px!important;
+  }
+  .layer-btn{
+    width:44px!important;
+    height:44px!important;
+    border-radius:12px!important;
+  }
+  .layer-btn svg{
+    width:22px!important;
+    height:22px!important;
+  }
+
+  .coords-control{
+    top: calc(var(--header-h) + 12px)!important;
+    right:16px!important;
+    bottom:auto!important;
+    left:auto!important;
+    padding:6px 10px!important;
+    font-size:11px!important;
+    border-radius:9px!important;
+  }
+}
+
+@media (max-width:600px){
+  .zoom-box{
+    width:40px!important;
+  }
+  .zoom-box button{
+    height:38px!important;
+    font-size:18px!important;
+  }
+  .layer-btn{
+    width:40px!important;
+    height:40px!important;
+  }
+  .layer-btn svg{
+    width:19px!important;
+    height:19px!important;
+  }
+  .coords-control{
+    top: calc(var(--header-h) + 8px)!important;
+    right:10px!important;
+    padding:5px 8px!important;
+    font-size:9.5px!important;
+  }
+}
+<style id="FINAL-MAP-CONTROLS-ONLY">
+
+/* =========================================================
+   FINAL FIX — HANYA KONTROL PETA
+   Zoom / Layer / Koordinat / Attribution
+   ========================================================= */
+
+/* ---------- KONTROL ZOOM + LAYER ---------- */
+
+.map-tools{
+  position:absolute !important;
+
+  /* kanan bawah */
+  left:auto !important;
+  right:22px !important;
+  top:auto !important;
+  bottom:76px !important;
+
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  gap:12px !important;
+
+  z-index:1200 !important;
+}
+
+/* Kotak zoom */
+.zoom-box{
+  width:56px !important;
+  border-radius:15px !important;
+  overflow:hidden !important;
+  background:#fff !important;
+
+  box-shadow:0 8px 22px rgba(7,27,67,.20) !important;
+}
+
+.zoom-box button{
+  width:100% !important;
+  height:50px !important;
+
+  border:0 !important;
+  font-size:25px !important;
+  line-height:1 !important;
+}
+
+/* Tombol layer */
+.layer-btn{
+  width:56px !important;
+  height:56px !important;
+
+  border-radius:15px !important;
+
+  box-shadow:0 8px 22px rgba(7,27,67,.22) !important;
+}
+
+.layer-btn svg{
+  width:29px !important;
+  height:29px !important;
+}
+
+
+/* ---------- PANEL PILIH BASEMAP ---------- */
+
+.basemap-panel{
+  position:absolute !important;
+
+  /* muncul di sebelah kiri kontrol */
+  left:auto !important;
+  right:68px !important;
+
+  top:auto !important;
+  bottom:0 !important;
+
+  width:190px !important;
+  max-height:310px !important;
+
+  border-radius:16px !important;
+  overflow-y:auto !important;
+
+  z-index:1300 !important;
+}
+
+
+/* ---------- KOORDINAT KURSOR ---------- */
+
+.coords-control{
+  position:absolute !important;
+
+  /* TENGAH BAWAH */
+  left:50% !important;
+  right:auto !important;
+
+  top:auto !important;
+  bottom:12px !important;
+
+  transform:translateX(-50%) !important;
+
+  padding:6px 12px !important;
+
+  background:rgba(255,255,255,.96) !important;
+
+  border:1px solid rgba(7,27,67,.10) !important;
+  border-radius:9px !important;
+
+  box-shadow:0 5px 15px rgba(7,27,67,.13) !important;
+
+  color:#17315c !important;
+  font-size:11px !important;
+  line-height:1.2 !important;
+
+  white-space:nowrap !important;
+
+  z-index:1200 !important;
+  pointer-events:none !important;
+}
+
+
+/* ---------- ATTRIBUTION LEAFLET ---------- */
+
+.leaflet-control-attribution{
+  position:relative !important;
+
+  z-index:1101 !important;
+
+  margin:0 !important;
+  padding:2px 6px !important;
+
+  background:rgba(255,255,255,.92) !important;
+
+  border-radius:7px 0 0 0 !important;
+
+  font-size:10px !important;
+  line-height:14px !important;
+}
+
+
+/* ---------- SKALA ---------- */
+
+.leaflet-control-scale{
+  margin-left:12px !important;
+  margin-bottom:8px !important;
+
+  z-index:1101 !important;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width:600px){
+
+  .map-tools{
+    right:12px !important;
+    bottom:72px !important;
+
+    gap:10px !important;
+  }
+
+  .zoom-box{
+    width:44px !important;
+    border-radius:12px !important;
+  }
+
+  .zoom-box button{
+    height:42px !important;
+    font-size:21px !important;
+  }
+
+  .layer-btn{
+    width:44px !important;
+    height:44px !important;
+
+    border-radius:12px !important;
+  }
+
+  .layer-btn svg{
+    width:23px !important;
+    height:23px !important;
+  }
+
+  .basemap-panel{
+    right:54px !important;
+    bottom:0 !important;
+
+    width:min(260px,calc(100vw - 70px)) !important;
+    max-height:calc(100vh - 150px) !important;
+
+    border-radius:15px !important;
+  }
+
+  .coords-control{
+    left:50% !important;
+    right:auto !important;
+
+    bottom:8px !important;
+
+    transform:translateX(-50%) !important;
+
+    max-width:calc(100vw - 100px) !important;
+
+    padding:5px 8px !important;
+
+    font-size:9.5px !important;
+
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+  }
+
+  .leaflet-control-attribution{
+    font-size:8.5px !important;
+    line-height:13px !important;
+
+    padding:1px 4px !important;
+  }
+
+  .leaflet-control-scale{
+    margin-left:8px !important;
+    margin-bottom:8px !important;
+  }
+}
+
+</style>
 </head>
 
 <body>
   <header class="header">
-    <button class="menu-btn" id="menuBtn" aria-label="Buka menu">
-      <span class="hamb"><span></span><span></span><span></span></span>
-    </button>
-
-    <div class="brand">
+<div class="brand">
       <div class="brand-pin" aria-hidden="true">
         <svg viewBox="0 0 80 94" xmlns="http://www.w3.org/2000/svg">
           <path d="M40 2C18.5 2 2 18.5 2 40c0 27 38 52 38 52s38-25 38-52C78 18.5 61.5 2 40 2z" fill="#f51b78" stroke="#fff" stroke-width="3"/>
@@ -1569,6 +2004,7 @@ button,input,select{font:inherit}
   </header>
 
   <div id="map"></div>
+  <div class="coords-control" id="coordsControl">Lat: - | Lng: -</div>
 
   <div class="map-tools">
     <div class="zoom-box">
@@ -1584,91 +2020,82 @@ button,input,select{font:inherit}
     <div class="basemap-panel" id="basemapPanel"><button class="base-close" id="baseClose" aria-label="Tutup pilihan basemap">×</button></div>
   </div>
 
-  <aside class="side collapsed" id="sidePanel">
-    <section class="card">
-      <div class="card-head">
-        <div class="card-icon">●</div>
-        <div><h2>Legenda</h2><div class="sub">Keterangan simbol</div></div>
-      </div>
-      <div class="legend-row"><span class="legend-dot"></span><span>Lokasi Gereja</span></div>
-      <div class="legend-row"><span class="legend-dot"></span><span>Gereja hasil filter</span></div>
-    </section>
-
-    <section class="card">
-      <div class="card-head">
-        <div class="card-icon">ℹ</div>
-        <div><h2>Tips</h2><div class="sub">Interaksi peta</div></div>
-      </div>
-      <div class="tip">
-        Klik marker untuk membuka popup.<br>
-        Pilih <strong>Lihat Selengkapnya</strong> untuk detail dan akses Google Maps.
-      </div>
-    </section>
-
-    <section class="card">
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-icon">📍</div>
-          <div class="stat-num" id="totalStat">0</div>
-          <div class="stat-label">Total Gereja</div>
-        </div>
-        <div class="stat">
-          <div class="stat-icon">⏷</div>
-          <div class="stat-num" id="filterStat">0</div>
-          <div class="stat-label">Hasil Filter</div>
-        </div>
-        <div class="stat">
-          <div class="stat-icon">▥</div>
-          <div class="stat-num" id="wilayahStat">0</div>
-          <div class="stat-label">Wilayah</div>
-        </div>
-      </div>
-    </section>
-  </aside>
-  <button class="right-toggle" id="rightToggle" title="Sembunyikan panel" aria-label="Sembunyikan panel">»</button>
-
-
-  <div class="search-panel" id="searchPanel" aria-live="polite">
-    <div class="tool-head">
-      <div class="search-title" id="toolTitle">Cari Gereja</div>
-      <button class="tool-close" id="toolClose" aria-label="Tutup fitur">×</button>
-    </div>
-    <input id="searchInput" class="search-input" placeholder="Cari nama atau alamat gereja..." autocomplete="off">
-    <select id="wilayahSelect" class="filter-select" aria-label="Pilih Mawil">
-      <option value="">Semua Mawil</option>
-    </select>
-    <div class="mawil-info" id="mawilInfo" hidden>
-      <div class="mawil-info-title" id="mawilInfoTitle">Mawil</div>
-      <div class="mawil-info-scope" id="mawilInfoScope"></div>
-      <div class="mawil-info-note">Cakupan berdasarkan alamat gereja yang terdapat pada data WebGIS.</div>
-    </div>
-  </div>
-
-  <nav class="drawer" id="drawer">
+  <nav class="drawer open" id="drawer">
     <div class="drawer-head">
       <h2>MENU</h2>
-      <button class="close-btn" id="drawerClose">×</button>
     </div>
 
-    <div class="menu-item" id="menuSearch">
-      <div class="menu-ico">⌕</div>
-      <div><b>Cari Gereja</b><span>Cari berdasarkan nama jemaat atau alamat gereja</span></div>
-    </div>
+<div class="menu-item" id="menuSearch">
+  <div>
+    <div class="menu-ico">⌕</div>
+    <div><b>Cari Gereja</b><span>Cari berdasarkan nama jemaat atau alamat gereja</span></div>
+  </div>
+  <div class="inline-control">
+    <input id="searchInput" placeholder="Cari nama atau alamat gereja..." autocomplete="off">
+  </div>
+</div>
 
-    <div class="menu-item" id="menuFilter">
-      <div class="menu-ico">⌖</div>
-      <div><b>Filter Wilayah</b><span>Pilih berdasarkan Mawil (1, 2, 3, 4)</span></div>
-    </div>
+<div class="menu-item" id="menuFilter">
+  <div>
+    <div class="menu-ico">⌖</div>
+    <div><b>Filter Wilayah</b><span>Pilih berdasarkan Mawil (1, 2, 3, 4)</span></div>
+  </div>
+  <div class="inline-control">
+    <select id="wilayahSelect" aria-label="Pilih Mawil">
+      <option value="">Semua Mawil</option>
+    </select>
+  </div>
+  <div class="inline-mawil-info" id="mawilInfo" hidden>
+    <div class="mawil-info-title" id="mawilInfoTitle">Mawil</div>
+    <div class="mawil-info-scope" id="mawilInfoScope"></div>
+    <div class="mawil-info-note">Cakupan berdasarkan alamat gereja yang terdapat pada data WebGIS.</div>
+  </div>
+</div>
 
-    <div class="menu-item" id="menuAll">
-      <div class="menu-ico">☷</div>
-      <div><b>Tampilkan Semua Gereja</b><span>Tampilkan kembali semua marker gereja</span></div>
-    </div>
+<div class="menu-item" id="menuAll">
+  <div>
+    <div class="menu-ico">☷</div>
+    <div><b>Tampilkan Semua Gereja</b><span>Tampilkan kembali semua marker gereja</span></div>
+  </div>
+</div>
 
-    <div class="menu-item" id="menuAbout">
-      <div class="menu-ico">i</div>
-      <div><b>Tentang WebGIS</b><span>Informasi tentang latar belakang, tujuan, dan pembuat WebGIS.</span></div>
+<div class="menu-item" id="menuAbout">
+  <div>
+    <div class="menu-ico">i</div>
+    <div><b>Tentang WebGIS</b><span>Informasi tentang latar belakang, tujuan, dan pembuat WebGIS.</span></div>
+  </div>
+</div>
+
+<div class="moved-info">
+  <section class="card">
+    <div class="card-head">
+      <div class="card-icon">●</div>
+      <div><h2>Legenda</h2><div class="sub">Keterangan simbol</div></div>
     </div>
+    <div class="legend-row"><span class="legend-dot normal"></span><span>Lokasi Gereja</span></div>
+    <div class="legend-row"><span class="legend-dot filtered"></span><span>Gereja hasil filter</span></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div class="card-icon">ℹ</div>
+      <div><h2>Tips</h2><div class="sub">Interaksi peta</div></div>
+    </div>
+    <div class="tip">
+      Klik marker untuk membuka popup.<br>
+      Pilih <strong>Lihat Selengkapnya</strong> untuk detail dan akses Google Maps.
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="stats">
+      <div class="stat"><div class="stat-icon">📍</div><div class="stat-num" id="totalStat">0</div><div class="stat-label">Total Gereja</div></div>
+      <div class="stat"><div class="stat-icon">⏷</div><div class="stat-num" id="filterStat">0</div><div class="stat-label">Hasil Filter</div></div>
+      <div class="stat"><div class="stat-icon">▥</div><div class="stat-num" id="wilayahStat">0</div><div class="stat-label">Wilayah</div></div>
+    </div>
+  </section>
+</div>
+
   </nav>
 
   <div class="modal-backdrop" id="modalBackdrop">
@@ -1691,9 +2118,14 @@ button,input,select{font:inherit}
   <script>
     const map = L.map('map', {
       zoomControl:false,
-      center:[-6.20,106.83],
-      zoom:10,
+      center:[-6.16,106.88],
+      zoom:8,
       attributionControl:true
+    });
+
+    const coordsControl = document.getElementById('coordsControl');
+    map.on('mousemove', e => {
+      coordsControl.textContent = `Lat: ${e.latlng.lat.toFixed(6)} | Lng: ${e.latlng.lng.toFixed(6)}`;
     });
 
     const baseMaps = {
@@ -1744,7 +2176,13 @@ button,input,select{font:inherit}
       basemapPanel.appendChild(row);
     });
 
-    const churchIcon = L.divIcon({
+    const normalChurchIcon = L.divIcon({
+      className:'church-marker',
+      html:'<div style="width:17px;height:17px;border-radius:50%;background:#fff;border:3px solid #f51b78;box-shadow:0 0 0 1px rgba(245,27,120,.35),0 3px 7px rgba(0,0,0,.18)"></div>',
+      iconSize:[20,20],iconAnchor:[10,10],popupAnchor:[0,-10]
+    });
+
+    const filteredChurchIcon = L.divIcon({
       className:'church-marker',
       html:'<div style="width:17px;height:17px;border-radius:50%;background:#f51b78;border:3px solid #fff;box-shadow:0 0 0 1.5px #f51b78,0 3px 7px rgba(0,0,0,.18)"></div>',
       iconSize:[20,20],iconAnchor:[10,10],popupAnchor:[0,-10]
@@ -1753,6 +2191,8 @@ button,input,select{font:inherit}
     let geoData=null;
     let allFeatures=[];
     let visibleLayer=L.layerGroup().addTo(map);
+    let currentFilterActive=false;
+    map._fitAfterFilter=false;
 
     const esc = value => String(value ?? '-')
       .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
@@ -1832,8 +2272,7 @@ button,input,select{font:inherit}
         ['👤 Gembala',pastor(p)],
         ['☎ No. HP/WA',phone(p)],
         ['🕘 Jam Operasional',prop(p,'Jam_Operas','JAM_OPERASIONAL') || '-'],
-        ['🧭 Mawil',mawil(p)],
-        ['📌 Koordinat',c ? `${lat}, ${lng}` : '-']
+        ['🧭 Mawil',mawil(p)]
       ];
       document.getElementById('modalDetails').innerHTML=rows.map(r=>
         `<div class="detail-row"><b>${r[0]}</b><span>${esc(r[1])}</span></div>`).join('');
@@ -1867,13 +2306,21 @@ button,input,select{font:inherit}
       const markers=[];
       features.forEach(f=>{
         const c=coordsOf(f); if(!c) return;
-        const m=L.marker(c,{icon:churchIcon});
-        m.bindPopup(popupHTML(f));
+        const m=L.marker(c,{icon:currentFilterActive ? filteredChurchIcon : normalChurchIcon});
+        m.bindPopup(popupHTML(f),{
+          autoPan:true,
+          autoPanPaddingTopLeft:[18,128],
+          autoPanPaddingBottomRight:[18,28],
+          keepInView:true
+        });
         m.addTo(visibleLayer);
         markers.push(m);
       });
       document.getElementById('filterStat').textContent=features.length;
-      if(features.length && !map._userMoved) map.fitBounds(L.featureGroup(markers).getBounds().pad(.12));
+      // Tampilan awal sengaja menggunakan cakupan yang lebih luas agar persebaran gereja terlihat.
+      if(features.length && map._fitAfterFilter){
+        map.fitBounds(L.featureGroup(markers).getBounds().pad(.18));
+      }
     }
 
     // Cakupan Mawil ditulis berdasarkan alamat gereja yang ada pada dataset,
@@ -1924,18 +2371,21 @@ button,input,select{font:inherit}
         const hay=[churchName(p),address(p),pastor(p),phone(p),mawil(p)].join(' ').toLowerCase();
         return (!q || hay.includes(q)) && (!w || String(mawil(p))===w);
       });
+      currentFilterActive=Boolean(q || w);
       map._userMoved=false;
+      map._fitAfterFilter=true;
       render(filtered);
     }
 
     fetch('gereja.geojson')
-      .then(r=>{if(!r.ok) throw new Error('File gereja.geojson tidak ditemukan'); return r.json()})
-      .then(data=>{
-        geoData=data;
-        allFeatures=Array.isArray(data.features)?data.features:[];
-        updateStats();
-        render(allFeatures);
-      })
+  .then(r=>{if(!r.ok) throw new Error('File gereja.geojson tidak ditemukan'); return r.json()})
+  .then(data=>{
+    geoData=data;
+    allFeatures=Array.isArray(data.features)?data.features:[];
+    updateStats();
+    map._fitAfterFilter=true;
+    render(allFeatures);
+  })
       .catch(err=>{
         console.error(err);
         alert('Gagal membaca gereja.geojson. Pastikan index.html dan gereja.geojson berada dalam folder yang sama dan WebGIS dibuka melalui Live Server.');
@@ -1970,6 +2420,22 @@ button,input,select{font:inherit}
               WebGIS bertujuan membantu pengguna mengetahui persebaran gereja,
               mencari gereja berdasarkan nama atau alamat, menyaring berdasarkan
               wilayah/Mawil, serta melihat lokasi gereja langsung pada peta.
+            </p>
+          </div>
+
+          <div class="about-section">
+            <h3>📍 Pengertian Mawil</h3>
+            <p>
+              <b>Mawil</b> merupakan singkatan dari <b>Majelis Wilayah</b>, yaitu pengelompokan
+              wilayah pelayanan gereja yang digunakan dalam data WebGIS ini. Pembagian yang
+              ditampilkan terdiri atas Mawil 1, Mawil 2, Mawil 3, dan Mawil 4.
+            </p>
+            <p style="margin-top:8px">
+              <b>Cakupan:</b> Mawil 1 meliputi Jakarta Pusat dan sekitarnya; Mawil 2 meliputi
+              Jakarta Utara, Jakarta Barat, dan Bekasi; Mawil 3 terutama meliputi kawasan
+              Jakarta Barat; sedangkan Mawil 4 meliputi Jakarta Timur, Depok, serta sekitar
+              Cibinong/Bogor. Cakupan ini mengikuti alamat gereja pada dataset, bukan batas
+              administrasi resmi.
             </p>
           </div>
 
@@ -2024,108 +2490,25 @@ button,input,select{font:inherit}
 
     const basemapPanelEl=document.getElementById('basemapPanel');
     document.getElementById('layerBtn').onclick=()=>{
-      const opening=!basemapPanelEl.classList.contains('open');
-      basemapPanelEl.classList.toggle('open',opening);
-
-      if(window.innerWidth<=1000){
-        document.body.classList.toggle('basemap-mobile-open',opening);
-      }else{
-        document.body.classList.remove('basemap-mobile-open');
-      }
+      basemapPanelEl.classList.toggle('open');
     };
-    document.getElementById('baseClose').onclick=()=>{
-      basemapPanelEl.classList.remove('open');
-      document.body.classList.remove('basemap-mobile-open');
-    };
+    document.getElementById('baseClose').onclick=()=>basemapPanelEl.classList.remove('open');
 
-    const drawer=document.getElementById('drawer');
-    const searchPanel=document.getElementById('searchPanel');
     const searchInput=document.getElementById('searchInput');
     const wilayahSelect=document.getElementById('wilayahSelect');
 
-    function closeTool(){
-      searchPanel.classList.remove('open','mode-filter');
-      searchInput.value='';
-      wilayahSelect.value='';
-      updateMawilInfo('');
-      render(allFeatures);
-    }
-
-    function openTool(mode){
-      drawer.classList.remove('open');
-      searchPanel.classList.remove('mode-filter');
-      searchPanel.classList.add('open');
-      searchInput.style.display='block';
-      wilayahSelect.style.display='none';
-
-      if(mode==='search'){
-        document.getElementById('toolTitle').textContent='Cari Gereja';
-        searchInput.style.display='block';
-        setTimeout(()=>searchInput.focus(),60);
-      }else{
-        document.getElementById('toolTitle').textContent='Filter Wilayah';
-        searchPanel.classList.add('mode-filter');
-        searchInput.style.display='none';
-        wilayahSelect.style.display='block';
-        updateMawilInfo(wilayahSelect.value);
-        setTimeout(()=>wilayahSelect.focus(),60);
-      }
-    }
-
-    document.getElementById('menuBtn').onclick=()=>drawer.classList.add('open');
-    document.getElementById('drawerClose').onclick=()=>drawer.classList.remove('open');
-    document.getElementById('toolClose').onclick=closeTool;
-
-    const sidePanel = document.getElementById('sidePanel');
-    const rightToggle = document.getElementById('rightToggle');
-
-    let sideUserToggled = false;
-
-    function syncSideForViewport(){
-      const mobile = window.innerWidth <= 1000;
-
-      if(!sideUserToggled){
-        sidePanel.classList.toggle('collapsed', mobile);
-      }
-
-      const collapsed = sidePanel.classList.contains('collapsed');
-      rightToggle.textContent = collapsed ? '«' : '»';
-      rightToggle.setAttribute('title', collapsed ? 'Tampilkan panel' : 'Sembunyikan panel');
-      rightToggle.setAttribute('aria-label', collapsed ? 'Tampilkan panel' : 'Sembunyikan panel');
-    }
-
-    rightToggle.onclick=()=>{
-      sideUserToggled = true;
-      sidePanel.classList.toggle('collapsed');
-      const collapsed=sidePanel.classList.contains('collapsed');
-
-      rightToggle.textContent=collapsed?'«':'»';
-      rightToggle.setAttribute('title',collapsed?'Tampilkan panel':'Sembunyikan panel');
-      rightToggle.setAttribute('aria-label',collapsed?'Tampilkan panel':'Sembunyikan panel');
-
-      // If the information panel is opened, make sure the basemap chooser
-      // is closed so the two floating panels never overlap.
-      if(!collapsed){
-        basemapPanelEl.classList.remove('open');
-        document.body.classList.remove('basemap-mobile-open');
-      }
-    };
-
-    syncSideForViewport();
-    window.addEventListener('resize',syncSideForViewport);
-
-    document.getElementById('menuSearch').onclick=()=>openTool('search');
-    document.getElementById('menuFilter').onclick=()=>openTool('filter');
+    document.getElementById('menuSearch').onclick=()=>searchInput.focus();
+    document.getElementById('menuFilter').onclick=()=>wilayahSelect.focus();
+    document.getElementById('menuAbout').onclick=()=>openAbout();
 
     document.getElementById('menuAll').onclick=()=>{
-      closeTool();
-      drawer.classList.remove('open');
-    };
-
-    document.getElementById('menuAbout').onclick=()=>{
-      drawer.classList.remove('open');
-      openAbout();
-    };
+  searchInput.value='';
+  wilayahSelect.value='';
+  updateMawilInfo('');
+  currentFilterActive=false;
+  map._fitAfterFilter=true;
+  render(allFeatures);
+};
 
     searchInput.addEventListener('input',applyFilter);
     wilayahSelect.addEventListener('change',applyFilter);
@@ -2137,10 +2520,7 @@ button,input,select{font:inherit}
 
     document.addEventListener('keydown',e=>{
       if(e.key==='Escape'){
-        drawer.classList.remove('open');
-        closeTool();
         basemapPanelEl.classList.remove('open');
-        document.body.classList.remove('basemap-mobile-open');
         document.getElementById('modalBackdrop').classList.remove('show');
       }
     });
@@ -2148,5 +2528,6 @@ button,input,select{font:inherit}
     map.on('movestart',()=>map._userMoved=true);
     L.control.scale({imperial:true,metric:true,position:'bottomleft'}).addTo(map);
   </script>
+
 </body>
 </html>
