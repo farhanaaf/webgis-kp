@@ -1633,7 +1633,7 @@ button,input,select{font:inherit}
 
 <style id="final-map-bottom-polish">
   /* FINAL POLISH: koordinat tidak lagi bertumpuk dengan attribution Leaflet */
-  .  .coords-control{
+  .coords-control{
     position:absolute !important;
     top: calc(var(--header-h) + 16px) !important;
     right:20px !important;
@@ -1746,6 +1746,7 @@ button,input,select{font:inherit}
     font-size:9.5px!important;
   }
 }
+</style>
 <style id="FINAL-MAP-CONTROLS-ONLY">
 
 /* =========================================================
@@ -1970,49 +1971,128 @@ button,input,select{font:inherit}
 
 </style>
 
-<style id="basemap-radio-fix">
-/* FIX KHUSUS BASEMAP: teks dan radio tidak boleh saling menabrak */
-.basemap-panel .base-item{
-  width:100% !important;
-  min-width:0 !important;
-  box-sizing:border-box !important;
-  display:grid !important;
-  grid-template-columns:34px minmax(0,1fr) 22px !important;
-  align-items:center !important;
-  column-gap:10px !important;
-}
-.basemap-panel .base-symbol{
-  width:34px !important;
-  height:34px !important;
-  flex:none !important;
-}
-.basemap-panel .base-name{
-  min-width:0 !important;
-  width:auto !important;
-  overflow:hidden !important;
-  white-space:nowrap !important;
-  text-overflow:ellipsis !important;
-  margin:0 !important;
-}
-.basemap-panel .base-radio{
-  width:22px !important;
-  height:22px !important;
-  min-width:22px !important;
-  min-height:22px !important;
-  margin:0 !important;
-  justify-self:end !important;
-  box-sizing:border-box !important;
-}
+<style id="FINAL-BASEMAP-MOBILE-FIX">
+/* FIX TERAKHIR: panel pilihan basemap tidak boleh naik menabrak header.
+   Hanya mengubah posisi/ukuran panel basemap pada mobile. */
 @media (max-width:600px){
-  .basemap-panel .base-item{
-    grid-template-columns:34px minmax(0,1fr) 22px !important;
-    column-gap:10px !important;
-    padding-left:9px !important;
-    padding-right:9px !important;
+  .basemap-panel{
+    position:fixed !important;
+    left:auto !important;
+    right:68px !important;
+    top:calc(var(--header-h, 92px) + 12px) !important;
+    bottom:auto !important;
+
+    width:min(260px, calc(100vw - 84px)) !important;
+    max-height:calc(100vh - var(--header-h, 92px) - 24px) !important;
+
+    padding:44px 10px 10px !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+
+    z-index:2500 !important;
   }
-  .basemap-panel .base-name{
+
+  .basemap-panel::before{
+    display:none !important;
+  }
+
+  .base-close{
+    right:10px !important;
+    top:9px !important;
+  }
+
+  .base-item{
+    min-height:48px !important;
+    padding:8px 9px !important;
+  }
+}
+</style>
+
+
+<style id="FINAL-BASEMAP-ANCHOR-FIX">
+/* Panel basemap: menempel rapi di kiri tombol layer.
+   Tidak mengubah menu, header, marker, popup gereja, atau fungsi lain. */
+.map-tools{
+  position:absolute !important;
+  overflow:visible !important;
+}
+
+.basemap-panel{
+  top:auto !important;
+  left:auto !important;
+  right:84px !important;
+  bottom:0 !important;
+  width:245px !important;
+  max-width:min(245px, calc(100vw - 110px)) !important;
+  max-height:360px !important;
+  z-index:1300 !important;
+}
+
+.basemap-panel::before{
+  left:auto !important;
+  right:-9px !important;
+  top:auto !important;
+  bottom:24px !important;
+  transform:rotate(135deg) !important;
+}
+
+@media (max-width:600px){
+  .map-tools{
+    right:12px !important;
+    left:auto !important;
+    bottom:72px !important;
+    top:auto !important;
+    gap:10px !important;
+  }
+
+  .basemap-panel{
+    position:absolute !important;
+    right:54px !important;
+    left:auto !important;
+    bottom:0 !important;
+    top:auto !important;
+    width:min(250px, calc(100vw - 68px)) !important;
+    max-width:none !important;
+    max-height:min(380px, calc(100vh - var(--header-h, 92px) - 24px)) !important;
+    padding:42px 8px 8px !important;
+    border-radius:16px !important;
+    z-index:1300 !important;
+  }
+
+  .basemap-panel::before{
+    right:-9px !important;
+    left:auto !important;
+    bottom:20px !important;
+    top:auto !important;
+  }
+
+  .base-close{
+    right:9px !important;
+    top:8px !important;
+    width:34px !important;
+    height:34px !important;
+  }
+
+  .base-item{
+    min-height:48px !important;
+    margin:2px 0 !important;
+    padding:7px 8px !important;
+  }
+
+  .base-symbol{
+    width:34px !important;
+    height:34px !important;
+  }
+
+  .base-name{
     font-size:14px !important;
-    line-height:1.2 !important;
+  }
+}
+
+@media (max-width:360px){
+  .basemap-panel{
+    right:50px !important;
+    width:calc(100vw - 62px) !important;
   }
 }
 </style>
