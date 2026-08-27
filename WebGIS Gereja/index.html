@@ -1969,6 +1969,54 @@ button,input,select{font:inherit}
 }
 
 </style>
+
+<style id="basemap-radio-fix">
+/* FIX KHUSUS BASEMAP: teks dan radio tidak boleh saling menabrak */
+.basemap-panel .base-item{
+  width:100% !important;
+  min-width:0 !important;
+  box-sizing:border-box !important;
+  display:grid !important;
+  grid-template-columns:34px minmax(0,1fr) 22px !important;
+  align-items:center !important;
+  column-gap:10px !important;
+}
+.basemap-panel .base-symbol{
+  width:34px !important;
+  height:34px !important;
+  flex:none !important;
+}
+.basemap-panel .base-name{
+  min-width:0 !important;
+  width:auto !important;
+  overflow:hidden !important;
+  white-space:nowrap !important;
+  text-overflow:ellipsis !important;
+  margin:0 !important;
+}
+.basemap-panel .base-radio{
+  width:22px !important;
+  height:22px !important;
+  min-width:22px !important;
+  min-height:22px !important;
+  margin:0 !important;
+  justify-self:end !important;
+  box-sizing:border-box !important;
+}
+@media (max-width:600px){
+  .basemap-panel .base-item{
+    grid-template-columns:34px minmax(0,1fr) 22px !important;
+    column-gap:10px !important;
+    padding-left:9px !important;
+    padding-right:9px !important;
+  }
+  .basemap-panel .base-name{
+    font-size:14px !important;
+    line-height:1.2 !important;
+  }
+}
+</style>
+
 </head>
 
 <body>
