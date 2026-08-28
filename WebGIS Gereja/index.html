@@ -371,20 +371,21 @@ button,input,select{font:inherit}
 </style>
 
 <style id="mobile-parity-pass">
-
- /* MOBILE: MENU HIDDEN SAAT AWAL */
+/* MOBILE: MENU TERSEMBUNYI SAAT AWAL */
 @media (max-width:700px){
-  .drawer{
+
+  .side{
     transform:translateX(-110%) !important;
     visibility:hidden !important;
     pointer-events:none !important;
   }
 
-  .drawer.open{
+  .side.open{
     transform:translateX(0) !important;
     visibility:visible !important;
     pointer-events:auto !important;
   }
+
 }
 
 </style>
