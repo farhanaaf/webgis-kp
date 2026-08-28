@@ -372,6 +372,25 @@ button,input,select{font:inherit}
 
 <style id="mobile-parity-pass">
 
+  /* CSS mobile yang sudah ada */
+
+  /* MOBILE: MENU HIDDEN SAAT AWAL */
+  @media (max-width:700px){
+    .drawer{
+      transform:translateX(-110%) !important;
+      visibility:hidden !important;
+      pointer-events:none !important;
+    }
+
+    .drawer.open{
+      transform:translateX(0) !important;
+      visibility:visible !important;
+      pointer-events:auto !important;
+    }
+  }
+
+</style>
+
 /* =========================================================
    MOBILE PARITY PASS
    Desktop (>1000px) intentionally untouched.
@@ -2591,8 +2610,8 @@ button,input,select{font:inherit}
 
             <div class="about-person">
               <h4>Pembimbing Kerja Praktik Instansi / Perusahaan</h4>
-              <div class="person-name">Anita Fatmawaty Effendi</div>
-              <div class="person-role">Koordinator Divisi Data dan <i>Software</i></div>
+              <div class="person-name">Anita Fatmawaty Effendi, S.T.</div>
+              <div class="person-role"><i>Solution Engineer</i> Divisi Data dan <i>Software</i></div>
             </div>
 
             <div class="about-instansi">
